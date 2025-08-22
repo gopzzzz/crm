@@ -71,4 +71,8 @@ Route::post('/editemployee', [App\Http\Controllers\EmployeeController::class, 'e
 
 Route::get('/reminderlist/{leadId}', [App\Http\Controllers\HomeController::class, 'reminderlist'])->name('reminderlist');
 Route::post('/reminderstore', [App\Http\Controllers\HomeController::class, 'reminderstore'])->name('reminderstore');
-
+Route::get('/tasklist', [App\Http\Controllers\HomeController::class, 'tasklist'])->name('tasklist');
+Route::post('/createtask', [App\Http\Controllers\HomeController::class, 'createtask'])->name('createtask');
+Route::get('/taskcreate', [App\Http\Controllers\HomeController::class, 'taskcreate'])->name('taskcreate');
+Route::get('/taskedit/{taskId}', [App\Http\Controllers\HomeController::class, 'taskedit'])->name('taskedit');
+Route::post('/updateTask', [App\Http\Controllers\HomeController::class, 'updateTask'])->name('updateTask');

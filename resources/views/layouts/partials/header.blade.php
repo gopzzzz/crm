@@ -108,6 +108,15 @@
                 </a>
               </li>
               
+              <li class="nav-item {{ request()->is('tasklist') ? 'active' : '' }}">
+                <a href="{{url('tasklist')}}" class="nav-link">
+                  <i class="nav-icon bi bi-star-half"></i>
+                  <p>Tasks</p>
+                </a>
+              </li>
+              
+        
+             
                 <li class="nav-item {{ request()->is('createnewtask') ? 'active' : '' }}">
                 <a href="{{url('createnewtask')}}" class="nav-link">
                   <i class="nav-icon bi bi-star-half"></i>

@@ -686,4 +686,78 @@ public function reasignuser(Request $request){
         ->back()
         ->with('success', 'Leads reassigned successfully.');
 }
+  public function tasklist(){
+        $role=Auth::user()->role;
+        $tasks = DB::table('tbl_tasks')
+        ->join('users', 'tbl_tasks.assign_id', '=', 'users.id')
+        ->select('tbl_tasks.*', 'users.name') 
+        ->orderBy('tbl_tasks.id', 'desc')
+        ->get();
+    return view('admin.tasklist',compact('tasks','role'));
+    }
+      public function taskcreate(){
+        $role=Auth::user()->role;
+        $users=DB::table('users')->get();
+        return view('admin.taskcreate',compact('users','role'));
+    }
+   public function createtask(Request $request)
+{
+    $request->validate([
+        'assign_id'   => 'required|exists:users,id',
+        'title'       => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'status'      => 'required|in:0,1,2', 
+        'due_date'    => 'nullable|date',
+    ]);
+
+    DB::table('tbl_tasks')->insert([
+        'assign_id'   => $request->assign_id,
+        'title'       => $request->title,
+        'description' => $request->description,
+        'status'      => $request->status,
+        'due_date'    => $request->due_date,
+        'created_at'  => now(),
+        'updated_at'  => now(),
+    ]);
+
+    return redirect()->route('taskcreate')->with('success', 'Task created successfully!');
+}
+
+
+public function taskedit($taskId)
+{
+    $role = Auth::user()->role;
+
+    $task = DB::table('tbl_tasks')
+        ->leftJoin('users', 'tbl_tasks.assign_id', '=', 'users.id')
+        ->where('tbl_tasks.id', $taskId)
+        ->select(
+            'tbl_tasks.*',
+            'users.name as assigned_user_name',
+            'users.id as assigned_user_id'
+        )
+        ->first();
+
+    $users = DB::table('users')->select('id', 'name')->get();
+
+    return view('admin.taskedit', compact('task', 'role', 'users'));
+}
+
+public function updateTask(Request $request)
+{
+    DB::table('tbl_tasks')
+        ->where('id', $request->id)
+        ->update([
+            'assign_id' => $request->userid,
+            'title' => $request->title,
+            'description' => $request->description,
+            'status' => $request->status,
+            'due_date' => $request->due_date,
+        ]);
+
+    return redirect()->back()->with('success', 'Task updated successfully.');
+}
+
+
+
 }
