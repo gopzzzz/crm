@@ -27,7 +27,7 @@
         <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box">
                 <span class="info-box-icon text-bg-info shadow-sm">
- <a href="{{ route('notification') }}?employee_id={{ $user['employee_id'] }}" class="text-decoration-none">
+ "{{ route('notification') }}?employee_id={{ $user['employee_id'] }}" class="text-decoration-none">
 <span class="info-box-number text-white fw-bold" style="font-size: 2.50rem;">
                            {{ $user['todayReminders'] }}
                         </span>

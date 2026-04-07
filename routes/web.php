@@ -58,6 +58,9 @@ Route::post('/createnewtask', [App\Http\Controllers\HomeController::class, 'crea
 Route::get('/assignleads', [App\Http\Controllers\HomeController::class, 'assignleads'])->name('assignleads');
 Route::post('/assignuser', [App\Http\Controllers\HomeController::class, 'assignuser'])->name('assignuser');
 Route::post('/reasignuser', [App\Http\Controllers\HomeController::class, 'reasignuser'])->name('reasignuser');
+Route::get('/menus', [App\Http\Controllers\HomeController::class, 'menulist'])->name('menus');
+Route::post('/storemenu', [App\Http\Controllers\HomeController::class, 'storemenu'])->name('storemenu');
+Route::post('/menuedit', [App\Http\Controllers\HomeController::class, 'menuedit'])->name('menuedit');
 
 
 

@@ -123,6 +123,13 @@
                   <p>Task</p>
                 </a>
               </li>
+
+              <li class="nav-item {{ request()->is('menus') ? 'active' : '' }}">
+                <a href="{{url('menus')}}" class="nav-link">
+                  <i class="nav-icon bi bi-star-half"></i>
+                  <p>Menu</p>
+                </a>
+              </li>
               
               
 

@@ -11,6 +11,7 @@ use App\Models\Lead_types;
 use App\Models\Room_types;
 use App\Models\Extras;
 use App\Models\Tasks;
+use App\Models\Menu;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Log;
 use Hash;
@@ -757,6 +758,51 @@ public function updateTask(Request $request)
 
     return redirect()->back()->with('success', 'Task updated successfully.');
 }
+
+public function menulist()
+{
+    $role = Auth::user()->role;
+    $menus = Menu::orderBy('id', 'desc')->get();
+
+    return view('admin.menulist', compact('menus', 'role'));
+}
+
+public function storemenu(Request $request)
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'assigned_name' => 'nullable|string|max:255',
+    ]);
+
+    Menu::create([
+        'title' => $request->title,
+        'description' => $request->description,
+        'assigned_name' => $request->assigned_name,
+    ]);
+
+    return redirect()->back()->with('success', 'Menu added successfully!');
+}
+
+public function menuedit(Request $request)
+{
+    $request->validate([
+        'id' => 'required|integer|exists:menus,id',
+        'title' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'assigned_name' => 'nullable|string|max:255',
+    ]);
+
+    $menu = Menu::findOrFail($request->id);
+
+    $menu->title = $request->title;
+    $menu->description = $request->description;
+    $menu->assigned_name = $request->assigned_name;
+    $menu->save();
+
+    return redirect()->back()->with('success', 'Menu updated successfully!');
+}
+
 
 
 
