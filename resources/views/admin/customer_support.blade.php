@@ -58,14 +58,16 @@
                                         <td>{{ $i }}</td>
                                         <td>{{ $key->customer_name }}</td>
                                         <td>{{ $key->issue }}</td>
-                                        <td>{{ $key->status }}</td>
+                                        <td>
+                                             {{ [0 => 'Pending', 1 => 'Processing', 2 => 'Completed'][$key->status] ?? 'Unknown' }}
+                                        </td>
                 
                                         <td>
                                           <i class="fa fa-pencil-alt text-primary"
                                           style="cursor:pointer;"
                                           data-bs-toggle="modal"
                                           data-bs-target="#editcustomersupportmodal"
-                                          onclick="setCustomerSupport('{{ $key->id }}', '{{ e($key->name) }}', '{{ e($key->email) }}', '{{ e($key->business_type) }}', '{{ e($key->note) }}')">
+                                          onclick="setCustomerSupport('{{ $key->id }}', '{{ e($key->customer_name) }}', '{{ e($key->issue) }}', '{{ $key->status }}')">
                                         </i>
                                         
 
@@ -97,45 +99,26 @@
 
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label class="form-label">Name</label>
+                        <label class="form-label">Customer Name</label>
                         <input
                             type="text"
                             class="form-control"
                             placeholder="Enter Name"
-                            name="name"
+                            name="customer_name"
                             required
                         />
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            placeholder="Enter Name"
-                            name="email"
-                            required
-                        />
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Business Type</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            placeholder="Enter business type"
-                            name="business_type"
-                        />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Note</label>
+                        <label class="form-label">Issue</label>
                         <textarea
                             class="form-control"
-                            placeholder="Enter Note"
-                            name="note"
-                            rows="3"
-                        ></textarea> 
+                            placeholder="Enter issue"
+                            name="issue"
+                            required
+                        ></textarea>
                     </div>
+                    
                 </div>
 
                 <div class="modal-footer">
@@ -148,10 +131,10 @@
 </div>
 
 {{-- Edit Customer Modal --}}
-<div class="modal fade" id="editcustomermodal" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="editcustomersupportmodal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form method="POST" action="{{ url('customeredit') }}" enctype="multipart/form-data" name="customereditform">
+            <form method="POST" action="{{ route('editcustomer_support') }}" enctype="multipart/form-data" name="customereditform">
                 @csrf
 
                 <div class="modal-header">
@@ -163,23 +146,25 @@
                     <input type="hidden" name="id" id="customerid" value="">
 
                     <div class="mb-3">
-                        <label class="form-label">Name</label>
-                        <input type="text" class="form-control" id="customer_name" placeholder="Enter name" name="name" />
+                        <label class="form-label">Customer Name</label>
+                        <input type="text" class="form-control" id="customer_name" placeholder="Enter name" name="customer_name" />
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        <input type="text" class="form-control" id="customer_email" placeholder="Enter email" name="email" rows="3">
+                        <label class="form-label">Issue</label>
+                        <textarea class="form-control" id="issue" placeholder="Enter issue" name="issue" rows="3"></textarea>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Business Type</label>
-                        <input type="text" class="form-control" id="business_type" placeholder="Enter business type" name="business_type" />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Note</label>
-                        <textarea class="form-control" id="customer_note" placeholder="Enter note" name="note" rows="3"></textarea>
-                    </div>
+    <label class="form-label">Status</label>
+    <select name="status" class="form-control" required>
+        <option value="0">Pending</option>
+        <option value="1">Processing</option>
+        <option value="2">Completed</option>
+    </select>
+</div>
+                    
+
                 </div>
 
                 <div class="modal-footer">
@@ -191,14 +176,13 @@
     </div>
 </div>
 <script>
-    function setCustomer(id, name, email, business_type, note) {
+    function setCustomerSupport(id, name, issue, status) {
         document.getElementById('customerid').value = id || '';
         document.getElementById('customer_name').value = name || '';
-        document.getElementById('customer_email').value = email || '';
-        document.getElementById('business_type').value = business_type || '';
-        document.getElementById('customer_note').value = note || '';
+        document.getElementById('issue').value = issue || '';
+        document.getElementById('status').value = status || '0';
 
-        console.log('ID set:', document.getElementById('customerid').value);
+        console.log("Status set:", status);
     }
 </script>
 

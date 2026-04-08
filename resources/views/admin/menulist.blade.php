@@ -6,11 +6,11 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="d-flex justify-content-between align-items-center py-3 mb-4">
     <h4 class="fw-bold mb-0">
-        <span class="text-muted fw-light">Home /</span> Menus
+        <span class="text-muted fw-light">Home /</span> Tasks
     </h4>
 
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMenuModal">
-        Create Menu
+        Create Task
     </button>
 </div>
 
@@ -35,7 +35,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Menu List</h5>
+                        <h5 class="mb-0">Task List</h5>
                         
                     </div>
 
@@ -89,7 +89,7 @@
                 @csrf
 
                 <div class="modal-header">
-                    <h5 class="modal-title">Create Menu</h5>
+                    <h5 class="modal-title">Create Task</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
@@ -128,7 +128,7 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Create Menu</button>
+                    <button type="submit" class="btn btn-primary">Create Task</button>
                 </div>
             </form>
         </div>
@@ -143,7 +143,7 @@
                 @csrf
 
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit Menu</h5>
+                    <h5 class="modal-title">Edit Task</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
