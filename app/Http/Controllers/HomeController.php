@@ -12,6 +12,8 @@ use App\Models\Room_types;
 use App\Models\Extras;
 use App\Models\Tasks;
 use App\Models\Menu;
+use App\Models\Customer;
+use App\Models\Meeting;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Log;
 use Hash;
@@ -786,6 +788,7 @@ public function storemenu(Request $request)
 
 public function menuedit(Request $request)
 {
+      
     $request->validate([
         'id' => 'required|integer|exists:menus,id',
         'title' => 'required|string|max:255',
@@ -803,6 +806,98 @@ public function menuedit(Request $request)
     return redirect()->back()->with('success', 'Menu updated successfully!');
 }
 
+public function customerslist()
+{
+    $role = Auth::user()->role;
+    $customers = Customer::orderBy('id', 'desc')->get();
+
+    return view('admin.customerslist', compact('customers', 'role'));
+}
+
+public function storecustomer(Request $request)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|max:255',
+        'business_type' => 'nullable|string|max:255',
+        'note' => 'nullable|string',
+    ]);
+
+    Customer::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'business_type' => $request->business_type,
+        'note' => $request->note,
+    ]);
+
+    return redirect()->back()->with('success', 'Customer added successfully!');
+}
+
+public function customeredit(Request $request)
+{
+    $request->validate([
+        'id' => 'required|integer|exists:customers,id',
+        'name' => 'required|string|max:255',
+        'email' => 'nullable|string',
+        'business_type' => 'nullable|string|max:255',
+        'note' => 'nullable|string',
+    ]);
+
+    $customer = Customer::findOrFail($request->id);
+
+    $customer->name = $request->name;
+    $customer->email = $request->email;
+    $customer->business_type = $request->business_type;
+    $customer->note = $request->note;
+    $customer->save();
+
+    return redirect()->back()->with('success', 'Customer updated successfully!');
+}
+
+public function meetinglist()
+{
+    $role = Auth::user()->role;
+    $meetings = Meeting::orderBy('id', 'desc')->get();
+
+    return view('admin.meetinglist', compact('meetings', 'role'));
+}
+
+public function storemeeting(Request $request)
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'link' => 'nullable|string|max:255',
+    ]);
+
+    Meeting::create([
+        'title' => $request->title,
+        'description' => $request->description,
+        'link' => $request->link,
+    ]);
+
+    return redirect()->back()->with('success', 'Meeting added successfully!');
+}
+
+public function meetingedit(Request $request)
+{
+      
+    $request->validate([
+        'id' => 'required|integer|exists:meetings,id',
+        'title' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'link' => 'nullable|string|max:255',
+    ]);
+
+    $meeting = Meeting::findOrFail($request->id);
+
+    $meeting->title = $request->title;
+    $meeting->description = $request->description;
+    $meeting->link = $request->link;
+    $meeting->save();
+
+    return redirect()->back()->with('success', 'Meeting updated successfully!');
+}
 
 
 

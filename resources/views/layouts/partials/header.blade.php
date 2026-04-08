@@ -131,6 +131,29 @@
                 </a>
               </li>
               
+              <li class="nav-item {{ request()->is('customerslist') ? 'active' : '' }}">
+                <a href="{{url('customerslist')}}" class="nav-link">
+                  <i class="nav-icon bi bi-grip-horizontal"></i>
+                  <p>Customers</p>
+                </a>
+              </li>
+
+              <li class="nav-item {{ request()->is('meetings') ? 'active' : '' }}">
+                <a href="{{url('meetings')}}" class="nav-link">
+                  <i class="nav-icon bi bi-star-half"></i>
+                  <p>Meeting</p>
+                </a>
+              </li>
+
+              <li class="nav-item {{ request()->is('customer_supports') ? 'active' : '' }}">
+                <a href="{{url('customer_supports')}}" class="nav-link">
+                  <i class="nav-icon bi bi-grip-horizontal"></i>
+                  <p>Customer Support</p>
+                </a>
+              </li>
+
+              
+
               
 
               @endif
