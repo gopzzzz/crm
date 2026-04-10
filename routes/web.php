@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CustomerSupportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,7 +68,9 @@ Route::post('/customeredit', [App\Http\Controllers\HomeController::class, 'custo
 Route::get('/meetings', [App\Http\Controllers\HomeController::class, 'meetinglist'])->name('meetings');
 Route::post('/storemeeting', [App\Http\Controllers\HomeController::class, 'storemeeting'])->name('storemeeting');
 Route::post('/meetingedit', [App\Http\Controllers\HomeController::class, 'meetingedit'])->name('meetingedit');
-
+Route::get('/customer-support', [CustomerSupportController::class, 'index'])->name('customer_support');
+Route::post('/storecustomer-support', [CustomerSupportController::class, 'store'])->name('storecustomer_support');
+Route::post('/editcustomer-support', [CustomerSupportController::class, 'edit'])->name('editcustomer_support');
 
 Route::get('/employeelist', [App\Http\Controllers\EmployeeController::class, 'employeelist'])->name('employeelist');
 Route::get('/addemployee', [App\Http\Controllers\EmployeeController::class, 'addemployee'])->name('addemployee');
