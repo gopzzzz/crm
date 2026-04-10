@@ -11,6 +11,9 @@ use App\Models\Lead_types;
 use App\Models\Room_types;
 use App\Models\Extras;
 use App\Models\Tasks;
+use App\Models\Menu;
+use App\Models\Customer;
+use App\Models\Meeting;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Log;
 use Hash;
@@ -247,7 +250,10 @@ public function index()
 
     // Sorting
     // $leadsQuery->orderBy($sortBy, $sortDirection);
+    $leadsQuery->where('leads.sale_status','!=',1);
     $leadsQuery->orderBy('leads.status', 'ASC');
+    $leadsQuery->orderBy($sortBy, $sortDirection);
+    $leadsQuery->orderBy('leads.sale_status', 'desc');
 
     // Execute the query and get results
     $leads = $leadsQuery->paginate(20);
@@ -419,6 +425,15 @@ public function index()
         $Leads->task_status    = $request->filled('task_status') ? $request->task_status : null;
        
         $Leads->save();
+
+        if( $request->sales_status == 1){
+            $customer = new Customer;
+            $customer->name=$request->full_name;
+            $customer->email=$request->email;
+            $customer->business_type=$request->roomtype;
+            $customer->note=$request->note;
+            $customer->save();
+        }
     
         return back()->with('success', 'Lead updated successfully!');
     }
@@ -686,4 +701,216 @@ public function reasignuser(Request $request){
         ->back()
         ->with('success', 'Leads reassigned successfully.');
 }
+  public function tasklist(){
+        $role=Auth::user()->role;
+        $tasks = DB::table('tbl_tasks')
+        ->join('users', 'tbl_tasks.assign_id', '=', 'users.id')
+        ->select('tbl_tasks.*', 'users.name') 
+        ->orderBy('tbl_tasks.id', 'desc')
+        ->get();
+    return view('admin.tasklist',compact('tasks','role'));
+    }
+      public function taskcreate(){
+        $role=Auth::user()->role;
+        $users=DB::table('users')->get();
+        return view('admin.taskcreate',compact('users','role'));
+    }
+   public function createtask(Request $request)
+{
+    $request->validate([
+        'assign_id'   => 'required|exists:users,id',
+        'title'       => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'status'      => 'required|in:0,1,2', 
+        'due_date'    => 'nullable|date',
+    ]);
+
+    DB::table('tbl_tasks')->insert([
+        'assign_id'   => $request->assign_id,
+        'title'       => $request->title,
+        'description' => $request->description,
+        'status'      => $request->status,
+        'due_date'    => $request->due_date,
+        'created_at'  => now(),
+        'updated_at'  => now(),
+    ]);
+
+    return redirect()->route('taskcreate')->with('success', 'Task created successfully!');
+}
+
+
+public function taskedit($taskId)
+{
+    $role = Auth::user()->role;
+
+    $task = DB::table('tbl_tasks')
+        ->leftJoin('users', 'tbl_tasks.assign_id', '=', 'users.id')
+        ->where('tbl_tasks.id', $taskId)
+        ->select(
+            'tbl_tasks.*',
+            'users.name as assigned_user_name',
+            'users.id as assigned_user_id'
+        )
+        ->first();
+
+    $users = DB::table('users')->select('id', 'name')->get();
+
+    return view('admin.taskedit', compact('task', 'role', 'users'));
+}
+
+public function updateTask(Request $request)
+{
+    DB::table('tbl_tasks')
+        ->where('id', $request->id)
+        ->update([
+            'assign_id' => $request->userid,
+            'title' => $request->title,
+            'description' => $request->description,
+            'status' => $request->status,
+            'due_date' => $request->due_date,
+        ]);
+
+    return redirect()->back()->with('success', 'Task updated successfully.');
+}
+
+public function menulist()
+{
+    $role = Auth::user()->role;
+    $menus = Menu::orderBy('id', 'desc')->get();
+
+    return view('admin.menulist', compact('menus', 'role'));
+}
+
+public function storemenu(Request $request)
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'assigned_name' => 'nullable|string|max:255',
+    ]);
+
+    Menu::create([
+        'title' => $request->title,
+        'description' => $request->description,
+        'assigned_name' => $request->assigned_name,
+    ]);
+
+    return redirect()->back()->with('success', 'Menu added successfully!');
+}
+
+public function menuedit(Request $request)
+{
+      
+    $request->validate([
+        'id' => 'required|integer|exists:menus,id',
+        'title' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'assigned_name' => 'nullable|string|max:255',
+    ]);
+
+    $menu = Menu::findOrFail($request->id);
+
+    $menu->title = $request->title;
+    $menu->description = $request->description;
+    $menu->assigned_name = $request->assigned_name;
+    $menu->save();
+
+    return redirect()->back()->with('success', 'Menu updated successfully!');
+}
+
+public function customerslist()
+{
+    $role = Auth::user()->role;
+    $customers = Customer::orderBy('id', 'desc')->get();
+
+    return view('admin.customerslist', compact('customers', 'role'));
+}
+
+public function storecustomer(Request $request)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|max:255',
+        'business_type' => 'nullable|string|max:255',
+        'note' => 'nullable|string',
+    ]);
+
+    Customer::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'business_type' => $request->business_type,
+        'note' => $request->note,
+    ]);
+
+    return redirect()->back()->with('success', 'Customer added successfully!');
+}
+
+public function customeredit(Request $request)
+{
+    $request->validate([
+        'id' => 'required|integer|exists:customers,id',
+        'name' => 'required|string|max:255',
+        'email' => 'nullable|string',
+        'business_type' => 'nullable|string|max:255',
+        'note' => 'nullable|string',
+    ]);
+
+    $customer = Customer::findOrFail($request->id);
+
+    $customer->name = $request->name;
+    $customer->email = $request->email;
+    $customer->business_type = $request->business_type;
+    $customer->note = $request->note;
+    $customer->save();
+
+    return redirect()->back()->with('success', 'Customer updated successfully!');
+}
+
+public function meetinglist()
+{
+    $role = Auth::user()->role;
+    $meetings = Meeting::orderBy('id', 'desc')->get();
+
+    return view('admin.meetinglist', compact('meetings', 'role'));
+}
+
+public function storemeeting(Request $request)
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'link' => 'nullable|string|max:255',
+    ]);
+
+    Meeting::create([
+        'title' => $request->title,
+        'description' => $request->description,
+        'link' => $request->link,
+    ]);
+
+    return redirect()->back()->with('success', 'Meeting added successfully!');
+}
+
+public function meetingedit(Request $request)
+{
+      
+    $request->validate([
+        'id' => 'required|integer|exists:meetings,id',
+        'title' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'link' => 'nullable|string|max:255',
+    ]);
+
+    $meeting = Meeting::findOrFail($request->id);
+
+    $meeting->title = $request->title;
+    $meeting->description = $request->description;
+    $meeting->link = $request->link;
+    $meeting->save();
+
+    return redirect()->back()->with('success', 'Meeting updated successfully!');
+}
+
+
+
 }

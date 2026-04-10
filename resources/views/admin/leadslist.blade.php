@@ -147,7 +147,7 @@
                                  <th></th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="leadTableBody">
                             @foreach($leads as $index => $key)
                             <tr>
                                 <td>{{ $index + 1 }}</td>

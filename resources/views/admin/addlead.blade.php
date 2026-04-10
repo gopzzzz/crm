@@ -133,7 +133,7 @@
                             <div class="col-md-4">
                                 <label class="form-label">Booking Status</label>
                                 <select class="form-select" name="sales_status">
-                                    <option selected disabled>Open this select menu</option>
+                                    <option selected value="0">Open this select menu</option>
                                     <option value="1">Converted</option>
                                     <option value="2">Proccessing</option>
                                     <option value="3">Dead</option>
@@ -142,7 +142,7 @@
                             <div class="col-md-4">
                                 <label class="form-label">Task Status</label>
                                 <select class="form-select" name="task_status">
-                                    <option selected disabled>Open this select menu</option>
+                                    <option selected value="0">Open this select menu</option>
                                     <option value="1">Pending</option>
                                     <option value="2">Completed</option>
                                 </select>

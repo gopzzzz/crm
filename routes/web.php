@@ -58,7 +58,15 @@ Route::post('/createnewtask', [App\Http\Controllers\HomeController::class, 'crea
 Route::get('/assignleads', [App\Http\Controllers\HomeController::class, 'assignleads'])->name('assignleads');
 Route::post('/assignuser', [App\Http\Controllers\HomeController::class, 'assignuser'])->name('assignuser');
 Route::post('/reasignuser', [App\Http\Controllers\HomeController::class, 'reasignuser'])->name('reasignuser');
-
+Route::get('/menus', [App\Http\Controllers\HomeController::class, 'menulist'])->name('menus');
+Route::post('/storemenu', [App\Http\Controllers\HomeController::class, 'storemenu'])->name('storemenu');
+Route::post('/menuedit', [App\Http\Controllers\HomeController::class, 'menuedit'])->name('menuedit');
+Route::get('/customerslist', [App\Http\Controllers\HomeController::class, 'customerslist'])->name('customers');
+Route::post('/storecustomer', [App\Http\Controllers\HomeController::class, 'storecustomer'])->name('storecustomer');
+Route::post('/customeredit', [App\Http\Controllers\HomeController::class, 'customeredit'])->name('customeredit');
+Route::get('/meetings', [App\Http\Controllers\HomeController::class, 'meetinglist'])->name('meetings');
+Route::post('/storemeeting', [App\Http\Controllers\HomeController::class, 'storemeeting'])->name('storemeeting');
+Route::post('/meetingedit', [App\Http\Controllers\HomeController::class, 'meetingedit'])->name('meetingedit');
 
 
 Route::get('/employeelist', [App\Http\Controllers\EmployeeController::class, 'employeelist'])->name('employeelist');
@@ -71,4 +79,8 @@ Route::post('/editemployee', [App\Http\Controllers\EmployeeController::class, 'e
 
 Route::get('/reminderlist/{leadId}', [App\Http\Controllers\HomeController::class, 'reminderlist'])->name('reminderlist');
 Route::post('/reminderstore', [App\Http\Controllers\HomeController::class, 'reminderstore'])->name('reminderstore');
-
+Route::get('/tasklist', [App\Http\Controllers\HomeController::class, 'tasklist'])->name('tasklist');
+Route::post('/createtask', [App\Http\Controllers\HomeController::class, 'createtask'])->name('createtask');
+Route::get('/taskcreate', [App\Http\Controllers\HomeController::class, 'taskcreate'])->name('taskcreate');
+Route::get('/taskedit/{taskId}', [App\Http\Controllers\HomeController::class, 'taskedit'])->name('taskedit');
+Route::post('/updateTask', [App\Http\Controllers\HomeController::class, 'updateTask'])->name('updateTask');
