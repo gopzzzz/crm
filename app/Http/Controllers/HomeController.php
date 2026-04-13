@@ -777,6 +777,7 @@ public function storemenu(Request $request)
         'description' => 'nullable|string',
         'assigned_name' => 'nullable|string|max:255',
         'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+         'status' => 'required|in:0,1,2,3',
     ]);
 
     $imageName = null;
@@ -792,6 +793,7 @@ public function storemenu(Request $request)
         'description' => $request->description,
         'assigned_name' => $request->assigned_name,
         'image' => $imageName,
+        'status' => 0, // Pending by default
     ]);
 
     return redirect()->back()->with('success', 'Menu added successfully!');
@@ -806,9 +808,12 @@ public function menuedit(Request $request)
         'description' => 'nullable|string',
         'assigned_name' => 'nullable|string|max:255',
         'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        'status' => 'required|in:0,1,2,3',
     ]);
 
     $menu = Menu::findOrFail($request->id);
+
+    
    
     if ($request->hasFile('image')) {
         $imageName = uniqid() . '.' . $request->image->extension();
@@ -820,7 +825,10 @@ public function menuedit(Request $request)
     $menu->description = $request->description;
     if ($request->filled('assigned_name')) {
     $menu->assigned_name = $request->assigned_name;
+    $menu->status=$request->status;
 }
+
+    
     $menu->save();
 
     return redirect()->back()->with('success', 'Menu updated successfully!');

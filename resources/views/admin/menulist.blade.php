@@ -48,6 +48,7 @@
                                     <th>Description</th>
                                     <th>Assigned Name</th>
                                     <th>Image</th>
+                                    <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -65,11 +66,14 @@
                                             <img src="{{ url('public/uploads/menu/'.$key->image) }}" width="50">@endif
                                         </td>
                                         <td>
+                                            {{ [0 => 'Pending', 1 => 'Processing', 2 => 'Completed', 3 => 'Freeze'][$key->status] ?? 'Unknown' }}
+                                        </td>
+                                        <td>
                                           <i class="fa fa-pencil-alt text-primary"
                                           style="cursor:pointer;"
                                           data-bs-toggle="modal"
                                           data-bs-target="#editmenumodal"
-                                          onclick="setMenu('{{ $key->id }}', '{{ e($key->title) }}', '{{ e($key->description) }}', '{{ e($key->assigned_name) }}')"></i>
+                                          onclick="setMenu('{{ $key->id }}', '{{ e($key->title) }}', '{{ e($key->description) }}', '{{ e($key->assigned_name) }}', '{{ $key->status }}')"></i>
                                         
 
                                             
@@ -181,6 +185,16 @@
                     <label class="form-label">Image</label>
                     <input type="file" name="image" class="form-control">
                 </div>
+
+                <div class="mb-3">
+    <label class="form-label">Status</label>
+    <select name="status" id="status" class="form-control">
+        <option value="0">Pending</option>
+        <option value="1">Processing</option>
+        <option value="2">Completed</option>
+        <option value="3">Freeze</option>
+    </select>
+</div>
                 </div>
 
                 <div class="modal-footer">
@@ -192,11 +206,12 @@
     </div>
 </div>
 <script>
-    function setMenu(id, title, description, assigned_name) {
+    function setMenu(id, title, description, assigned_name, status) {
     document.getElementById('menuid').value = id || '';
     document.getElementById('menu_title').value = title || '';
     document.getElementById('menu_description').value = description || '';
     document.getElementById('assigned_name_edit').value = assigned_name || '';
+    document.getElementById('status').value = status || '0';
 
         console.log('ID set:', document.getElementById('menuid').value);
     }
