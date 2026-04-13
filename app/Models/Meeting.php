@@ -11,7 +11,10 @@ class Meeting extends Model
  protected $fillable = [
         'title',
         'description',
-        'link'
+        'link',
+        'meeting_date',
+        'meeting_time',
+        'assigned_staff'
     ];
     
 }

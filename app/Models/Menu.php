@@ -12,6 +12,7 @@ class Menu extends Model
     protected $fillable = [
         'title',
         'description',
-        'assigned_name'
+        'assigned_name',
+        'image'
     ];
 }

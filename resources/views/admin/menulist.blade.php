@@ -47,6 +47,7 @@
                                     <th>Title</th>
                                     <th>Description</th>
                                     <th>Assigned Name</th>
+                                    <th>Image</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -59,6 +60,10 @@
                                         <td>{{ $key->title }}</td>
                                         <td>{{ $key->description }}</td>
                                         <td>{{ $key->assigned_name }}</td>
+                                        <td>
+                                            @if($key->image)
+                                            <img src="{{ url('public/uploads/menu/'.$key->image) }}" width="50">@endif
+                                        </td>
                                         <td>
                                           <i class="fa fa-pencil-alt text-primary"
                                           style="cursor:pointer;"
@@ -116,14 +121,18 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Assigned Name</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            placeholder="Enter assigned name"
-                            name="assigned_name"
-                        />
-                    </div>
+                    <label class="form-label">Assigned Name</label>
+                    <select name="assigned_name" id="assigned_name" class="form-control">
+                        <option value="">Select Employee</option>
+                        @foreach($employees as $emp)
+                        <option value="{{ $emp->name }}">{{ $emp->name }}</option>
+                        @endforeach
+                    </select>
+                   </div>
+                   <div class="mb-3">
+                    <label class="form-label">Image</label>
+                    <input type="file" name="image" class="form-control">
+                </div>
                 </div>
 
                 <div class="modal-footer">
@@ -159,11 +168,19 @@
                         <label class="form-label">Description</label>
                         <textarea class="form-control" id="menu_description" placeholder="Enter description" name="description" rows="3"></textarea>
                     </div>
-
                     <div class="mb-3">
-                        <label class="form-label">Assigned Name</label>
-                        <input type="text" class="form-control" id="assigned_name" placeholder="Enter assigned name" name="assigned_name" />
-                    </div>
+                    <label class="form-label">Assigned Name</label>
+                    <select name="assigned_name" id="assigned_name_edit" class="form-control">
+                        <option value="">Select Employee</option>
+                        @foreach($employees as $emp)
+                        <option value="{{ $emp->name }}">{{ $emp->name }}</option>
+                        @endforeach
+                    </select>
+                   </div>
+                   <div class="mb-3">
+                    <label class="form-label">Image</label>
+                    <input type="file" name="image" class="form-control">
+                </div>
                 </div>
 
                 <div class="modal-footer">
@@ -176,10 +193,10 @@
 </div>
 <script>
     function setMenu(id, title, description, assigned_name) {
-        document.getElementById('menuid').value = id || '';
-        document.getElementById('menu_title').value = title || '';
-        document.getElementById('menu_description').value = description || '';
-        document.getElementById('assigned_name').value = assigned_name || '';
+    document.getElementById('menuid').value = id || '';
+    document.getElementById('menu_title').value = title || '';
+    document.getElementById('menu_description').value = description || '';
+    document.getElementById('assigned_name_edit').value = assigned_name || '';
 
         console.log('ID set:', document.getElementById('menuid').value);
     }

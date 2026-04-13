@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\CustomerSupport;
+use Illuminate\Support\Facades\DB;
 
 class CustomerSupportController extends Controller
 {
@@ -13,8 +14,10 @@ class CustomerSupportController extends Controller
     {
         $role = Auth::user()->role;
         $customer_supports = CustomerSupport::orderBy('id', 'desc')->get();
+        $customers = DB::table('customers')->get();
+        $employees = DB::table('tbl_employees')->get();
 
-        return view('admin.customer_support', compact('customer_supports', 'role'));
+        return view('admin.customer_support', compact('customer_supports', 'role','customers','employees'));
     }
 
     public function store(Request $request)
@@ -28,8 +31,9 @@ class CustomerSupportController extends Controller
         CustomerSupport::create([
             'customer_name' => $request->customer_name,
             'issue' => $request->issue,
-        ]);
-
+            'status' => 0, // Pending by default
+            'assigned_employee' => $request->assigned_employee,
+            ]);
         return redirect()->back()->with('success', 'Customer support added successfully!');
     }
 
@@ -39,16 +43,22 @@ class CustomerSupportController extends Controller
             'id' => 'required|exists:customer_supports,id',
             'customer_name' => 'required|string|max:255',
             'issue' => 'required|string|max:255',
-            'status' => 'required|in:0,1,2',
+            'status' => 'required|in:0,1,2,3',
         ]);
 
         $support = CustomerSupport::findOrFail($request->id);
 
-        $support->update([
-            'customer_name' => $request->customer_name,
+        $data = [
             'issue' => $request->issue,
+            'assigned_employee' => $request->assigned_employee,
             'status' => $request->status,
-        ]);
+            ];
+
+if ($request->filled('customer_name')) {
+    $data['customer_name'] = $request->customer_name;
+}
+
+$support->update($data);
 
         return redirect()->back()->with('success', 'Customer support updated successfully!');
     }

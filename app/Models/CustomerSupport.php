@@ -14,5 +14,6 @@ class CustomerSupport extends Model
         'customer_name',
         'issue',
         'status',
+        'assigned_employee'
     ];
 }
