@@ -46,6 +46,7 @@
                                     <th>#</th>
                                     <th>Customer Name</th>
                                     <th>Issue</th>
+                                    <th>Assigned</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
@@ -58,8 +59,9 @@
                                         <td>{{ $i }}</td>
                                         <td>{{ $key->customer_name }}</td>
                                         <td>{{ $key->issue }}</td>
+                                        <td>{{ $key->assigned_employee }}</td>
                                         <td>
-                                             {{ [0 => 'Pending', 1 => 'Processing', 2 => 'Completed'][$key->status] ?? 'Unknown' }}
+                                            {{ [0 => 'Pending', 1 => 'Processing', 2 => 'Completed', 3 => 'Freeze'][$key->status] ?? 'Unknown' }}
                                         </td>
                 
                                         <td>
@@ -67,7 +69,7 @@
                                           style="cursor:pointer;"
                                           data-bs-toggle="modal"
                                           data-bs-target="#editcustomersupportmodal"
-                                          onclick="setCustomerSupport('{{ $key->id }}', '{{ e($key->customer_name) }}', '{{ e($key->issue) }}', '{{ $key->status }}')">
+                                          onclick="setCustomerSupport('{{ $key->id }}', '{{ e($key->customer_name) }}', '{{ e($key->issue) }}', '{{ $key->status }}','{{ $key->assigned_employee }}')">
                                         </i>
                                         
 
@@ -98,16 +100,12 @@
                 </div>
 
                 <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label">Customer Name</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            placeholder="Enter Name"
-                            name="customer_name"
-                            required
-                        />
-                    </div>
+                    <label>Customer Name</label>
+                    <select name="customer_name" class="form-control">
+                        <option value="">Select Customer</option>
+                        @foreach($customers as $cust)
+                        <option value="{{ $cust->name }}">{{ $cust->name }}</option>@endforeach
+                    </select>
 
                     <div class="mb-3">
                         <label class="form-label">Issue</label>
@@ -117,6 +115,16 @@
                             name="issue"
                             required
                         ></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Assign Employee</label>
+                        <select name="assigned_employee" class="form-control">
+                            <option value="">Select Employee</option>
+                            @foreach($employees as $emp)
+                            <option value="{{ $emp->name }}">{{ $emp->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     
                 </div>
@@ -147,8 +155,12 @@
 
                     <div class="mb-3">
                         <label class="form-label">Customer Name</label>
-                        <input type="text" class="form-control" id="customer_name" placeholder="Enter name" name="customer_name" />
-                    </div>
+                        <select name="customer_name" id="customer_name_edit" class="form-control">
+                            <option value="">Select Customer</option>
+                            @foreach($customers as $cust)
+                            <option value="{{ $cust->name }}">{{ $cust->name }}</option>@endforeach
+                        </select>
+                        </div>
 
                     <div class="mb-3">
                         <label class="form-label">Issue</label>
@@ -156,11 +168,22 @@
                     </div>
 
                     <div class="mb-3">
+                        <label>Assign Employee</label>
+                        <select name="assigned_employee" id="assigned_employee_edit" class="form-control">
+                            <option value="">Select Employee</option>
+                            @foreach($employees as $emp)
+                            <option value="{{ $emp->name }}">{{ $emp->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
     <label class="form-label">Status</label>
-    <select name="status" class="form-control" required>
+    <select name="status" id="status" class="form-control">
         <option value="0">Pending</option>
         <option value="1">Processing</option>
         <option value="2">Completed</option>
+        <option value="3">Freeze</option>
     </select>
 </div>
                     
@@ -176,14 +199,13 @@
     </div>
 </div>
 <script>
-    function setCustomerSupport(id, name, issue, status) {
-        document.getElementById('customerid').value = id || '';
-        document.getElementById('customer_name').value = name || '';
-        document.getElementById('issue').value = issue || '';
-        document.getElementById('status').value = status || '0';
-
-        console.log("Status set:", status);
-    }
+   function setCustomerSupport(id, name, issue, status, assigned_employee) {
+    document.getElementById('customerid').value = id || '';
+    document.getElementById('customer_name_edit').value = name || '';
+    document.getElementById('issue').value = issue || '';
+    document.getElementById('status').value = status || '0';
+    document.getElementById('assigned_employee_edit').value = assigned_employee || '';
+}
 </script>
 
 @endsection

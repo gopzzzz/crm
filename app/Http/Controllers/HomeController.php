@@ -765,8 +765,9 @@ public function menulist()
 {
     $role = Auth::user()->role;
     $menus = Menu::orderBy('id', 'desc')->get();
+    $employees = DB::table('tbl_employees')->get();
 
-    return view('admin.menulist', compact('menus', 'role'));
+    return view('admin.menulist', compact('menus', 'role', 'employees'));
 }
 
 public function storemenu(Request $request)
@@ -775,12 +776,22 @@ public function storemenu(Request $request)
         'title' => 'required|string|max:255',
         'description' => 'nullable|string',
         'assigned_name' => 'nullable|string|max:255',
+        'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
     ]);
+
+    $imageName = null;
+
+    if ($request->hasFile('image')) {
+        $imageName = uniqid() . '.' . $request->image->extension();
+        $request->image->move(public_path('uploads/menu'), $imageName);
+    }
+
 
     Menu::create([
         'title' => $request->title,
         'description' => $request->description,
         'assigned_name' => $request->assigned_name,
+        'image' => $imageName,
     ]);
 
     return redirect()->back()->with('success', 'Menu added successfully!');
@@ -794,13 +805,22 @@ public function menuedit(Request $request)
         'title' => 'required|string|max:255',
         'description' => 'nullable|string',
         'assigned_name' => 'nullable|string|max:255',
+        'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
     ]);
 
     $menu = Menu::findOrFail($request->id);
+   
+    if ($request->hasFile('image')) {
+        $imageName = uniqid() . '.' . $request->image->extension();
+        $request->image->move(public_path('uploads/menu'), $imageName);
+        $menu->image = $imageName;
+    }
 
     $menu->title = $request->title;
     $menu->description = $request->description;
+    if ($request->filled('assigned_name')) {
     $menu->assigned_name = $request->assigned_name;
+}
     $menu->save();
 
     return redirect()->back()->with('success', 'Menu updated successfully!');
@@ -858,8 +878,9 @@ public function meetinglist()
 {
     $role = Auth::user()->role;
     $meetings = Meeting::orderBy('id', 'desc')->get();
+    $employees = DB::table('tbl_employees')->get();
 
-    return view('admin.meetinglist', compact('meetings', 'role'));
+    return view('admin.meetinglist', compact('meetings','employees', 'role'));
 }
 
 public function storemeeting(Request $request)
@@ -868,12 +889,16 @@ public function storemeeting(Request $request)
         'title' => 'required|string|max:255',
         'description' => 'nullable|string',
         'link' => 'nullable|string|max:255',
+        
     ]);
 
     Meeting::create([
         'title' => $request->title,
         'description' => $request->description,
         'link' => $request->link,
+        'meeting_date' => $request->meeting_date,
+        'meeting_time' => $request->meeting_time,
+        'assigned_staff' => $request->assigned_staff,
     ]);
 
     return redirect()->back()->with('success', 'Meeting added successfully!');
@@ -894,6 +919,11 @@ public function meetingedit(Request $request)
     $meeting->title = $request->title;
     $meeting->description = $request->description;
     $meeting->link = $request->link;
+    if ($request->filled('assigned_staff')) {
+    $meeting->assigned_staff = $request->assigned_staff;
+}
+    $meeting->meeting_date = $request->meeting_date;
+    $meeting->meeting_time = $request->meeting_time;
     $meeting->save();
 
     return redirect()->back()->with('success', 'Meeting updated successfully!');

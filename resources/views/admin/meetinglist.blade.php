@@ -47,6 +47,9 @@
                                     <th>Title</th>
                                     <th>Description</th>
                                     <th>Link</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Assign Staff</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -59,12 +62,16 @@
                                         <td>{{ $key->title }}</td>
                                         <td>{{ $key->description }}</td>
                                         <td>{{ $key->link }}</td>
+                                        <td>{{ $key-> meeting_date}}</td>
+                                        <td>{{ $key-> meeting_time}}</td>
+                                        <td>{{ $key-> assigned_staff}}</td>
                                         <td>
-                                          <i class="fa fa-pencil-alt text-primary"
-                                          style="cursor:pointer;"
-                                          data-bs-toggle="modal"
-                                          data-bs-target="#editmeetingmodal"
-                                          onclick="setMeeting('{{ $key->id }}', '{{ e($key->title) }}', '{{ e($key->description) }}', '{{ e($key->link) }}')"></i>
+                                         <i class="fa fa-pencil-alt text-primary"
+                                         style="cursor:pointer;"
+                                         data-bs-toggle="modal"
+                                         data-bs-target="#editmeetingmodal"
+                                         onclick="setMeeting('{{ $key->id }}','{{ e($key->title) }}','{{ e($key->description) }}','{{ e($key->link) }}','{{ $key->meeting_date }}','{{ $key->meeting_time }}','{{ e($key->assigned_staff) }}')">
+                                        </i>
                                         
 
                                             
@@ -124,6 +131,24 @@
                             name="link"
                         />
                     </div>
+                    <div class="mb-3">
+                        <label>Date</label>
+                        <input type="date" name="meeting_date" class="form-control">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label>Time</label>
+                        <input type="time" name="meeting_time" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label>Assign Staff</label>
+                        <select name="assigned_staff" class="form-control">
+                            <option value="">Select Staff</option>
+                            @foreach($employees as $emp)
+                            <option value="{{ $emp->name }}">{{ $emp->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
 
                 <div class="modal-footer">
@@ -164,6 +189,25 @@
                         <label class="form-label">Link</label>
                         <input type="text" class="form-control" id="link" placeholder="Enter link" name="link" />
                     </div>
+
+                    <div class="mb-3">
+                        <label>Date</label>
+                        <input type="date" name="meeting_date" id="meeting_date" class="form-control">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label>Time</label>
+                        <input type="time" name="meeting_time" id="meeting_time" class="form-control">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label>Assign Staff</label>
+                        <select name="assigned_staff" id="assigned_staff_edit" class="form-control">
+                            <option value="">Select Staff</option>
+                            @foreach($employees as $emp)
+                            <option value="{{ $emp->name }}">{{ $emp->name }}</option>@endforeach
+                        </select>
+                    </div>
                 </div>
 
                 <div class="modal-footer">
@@ -175,14 +219,16 @@
     </div>
 </div>
 <script>
-    function setMeeting(id, title, description, link) {
-        document.getElementById('meetingid').value = id || '';
-        document.getElementById('meeting_title').value = title || '';
-        document.getElementById('meeting_description').value = description || '';
-        document.getElementById('link').value = link || '';
+    function setMeeting(id, title, description, link, date, time, staff) {
+    document.getElementById('meetingid').value = id || '';
+    document.getElementById('meeting_title').value = title || '';
+    document.getElementById('meeting_description').value = description || '';
+    document.getElementById('link').value = link || '';
 
-        console.log('ID set:', document.getElementById('meetingid').value);
-    }
+    document.getElementById('meeting_date').value = date || '';
+    document.getElementById('meeting_time').value = time || '';
+    document.getElementById('assigned_staff_edit').value = staff || '';
+}
 </script>
 
 @endsection
