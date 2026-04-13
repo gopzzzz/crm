@@ -23,8 +23,9 @@ class CustomerSupportController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'customer_name' => 'required|string|max:255',
+            'customer_name' => 'required|integer',
             'issue' => 'required|string|max:255',
+            'assigned_employee' => 'nullable|integer',
             
         ]);
 
@@ -41,8 +42,9 @@ class CustomerSupportController extends Controller
     {
         $request->validate([
             'id' => 'required|exists:customer_supports,id',
-            'customer_name' => 'required|string|max:255',
+            'customer_name' => 'required|integer',
             'issue' => 'required|string|max:255',
+            'assigned_employee' => 'nullable|integer',
             'status' => 'required|in:0,1,2,3',
         ]);
 

@@ -145,7 +145,7 @@
                         <select name="assigned_staff" class="form-control">
                             <option value="">Select Staff</option>
                             @foreach($employees as $emp)
-                            <option value="{{ $emp->name }}">{{ $emp->name }}</option>
+                            <option value="{{ $emp->id }}">{{ $emp->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -205,7 +205,7 @@
                         <select name="assigned_staff" id="assigned_staff_edit" class="form-control">
                             <option value="">Select Staff</option>
                             @foreach($employees as $emp)
-                            <option value="{{ $emp->name }}">{{ $emp->name }}</option>@endforeach
+                            <option value="{{ $emp->id }}">{{ $emp->name }}</option>@endforeach
                         </select>
                     </div>
                 </div>
