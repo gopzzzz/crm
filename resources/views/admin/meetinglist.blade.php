@@ -64,7 +64,7 @@
                                         <td>{{ $key->link }}</td>
                                         <td>{{ $key-> meeting_date}}</td>
                                         <td>{{ $key-> meeting_time}}</td>
-                                        <td>{{ $key-> assigned_staff}}</td>
+                                        <td>{{ $key->staff_name }}</td>
                                         <td>
                                          <i class="fa fa-pencil-alt text-primary"
                                          style="cursor:pointer;"

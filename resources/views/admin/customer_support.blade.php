@@ -57,9 +57,9 @@
                                 @foreach($customer_supports as $key)
                                     <tr>
                                         <td>{{ $i }}</td>
-                                        <td>{{ $key->customer_name }}</td>
+                                        <td>{{ $key->customer_name_display }}</td>
                                         <td>{{ $key->issue }}</td>
-                                        <td>{{ $key->assigned_employee }}</td>
+                                        <td>{{ $key->employee_name }}</td>
                                         <td>
                                             {{ [0 => 'Pending', 1 => 'Processing', 2 => 'Completed'][$key->status] ?? 'Unknown' }}
                                         </td>
