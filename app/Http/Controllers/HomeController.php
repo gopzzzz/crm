@@ -785,7 +785,16 @@ public function updateTask(Request $request)
 public function menulist()
 {
     $role = Auth::user()->role;
-    $menus = Menu::orderBy('id', 'desc')->get();
+
+    $menus = DB::table('menus')
+        ->leftJoin('tbl_employees', 'menus.assigned_name', '=', 'tbl_employees.id')
+        ->select(
+            'menus.*',
+            'tbl_employees.name as employee_name'
+        )
+        ->orderBy('menus.id', 'desc')
+        ->get();
+
     $employees = DB::table('tbl_employees')->get();
 
     return view('admin.menulist', compact('menus', 'role', 'employees'));
@@ -793,28 +802,33 @@ public function menulist()
 
 public function storemenu(Request $request)
 {
+
     $request->validate([
         'title' => 'required|string|max:255',
         'description' => 'nullable|string',
         'assigned_name' => 'nullable|string|max:255',
-        'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-         'status' => 'required|in:0,1,2,3',
+        'image' => 'nullable|image|mimes:jpg,jpeg,png',
+        'due_date' => 'nullable|date',
+        'priority' => 'required|in:1,2',
+        'status' => 'required|in:0,1,2,3',
     ]);
 
     $imageName = null;
 
-    if ($request->hasFile('image')) {
-        $imageName = uniqid() . '.' . $request->image->extension();
-        $request->image->move(public_path('uploads/menu'), $imageName);
-    }
+if ($request->hasFile('image')) {
+    $imageName = uniqid() . '.' . $request->image->extension();
+    $request->image->move(public_path('uploads/menu'), $imageName);
+}
 
 
     Menu::create([
         'title' => $request->title,
         'description' => $request->description,
         'assigned_name' => $request->assigned_name,
-        'image' => $imageName,
-        'status' => 0, // Pending by default
+        'image' => $imageName ?? null,
+        'due_date' => $request->due_date,
+        'priority' => (int) $request->priority,
+        'status' => $request->status,
     ]);
 
     return redirect()->back()->with('success', 'Menu added successfully!');
@@ -828,7 +842,9 @@ public function menuedit(Request $request)
         'title' => 'required|string|max:255',
         'description' => 'nullable|string',
         'assigned_name' => 'nullable|string|max:255',
-        'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        'image' => 'nullable|image|mimes:jpg,jpeg,png',
+        'due_date' => 'nullable|date',
+        'priority' => 'required|in:1,2',
         'status' => 'required|in:0,1,2,3',
     ]);
 
@@ -846,8 +862,10 @@ public function menuedit(Request $request)
     $menu->description = $request->description;
     if ($request->filled('assigned_name')) {
     $menu->assigned_name = $request->assigned_name;
-    $menu->status=$request->status;
 }
+$menu->due_date = $request->due_date;
+$menu->priority = $request->priority;
+$menu->status = $request->status;
 
     
     $menu->save();
@@ -906,7 +924,10 @@ public function customeredit(Request $request)
 public function meetinglist()
 {
     $role = Auth::user()->role;
-    $meetings = Meeting::orderBy('id', 'desc')->get();
+    $meetings = DB::table('meetings')
+    ->leftJoin('tbl_employees', 'meetings.assigned_staff', '=', 'tbl_employees.id')
+    ->select('meetings.*', 'tbl_employees.name as staff_name')
+    ->get();
     $employees = DB::table('tbl_employees')->get();
 
     return view('admin.meetinglist', compact('meetings','employees', 'role'));

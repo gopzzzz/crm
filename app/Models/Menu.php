@@ -13,6 +13,9 @@ class Menu extends Model
         'title',
         'description',
         'assigned_name',
-        'image'
+        'image',
+        'due_date',
+        'priority',
+        'status'
     ];
 }

@@ -13,7 +13,15 @@ class CustomerSupportController extends Controller
     public function index()
     {
         $role = Auth::user()->role;
-        $customer_supports = CustomerSupport::orderBy('id', 'desc')->get();
+        $customer_supports = DB::table('customer_supports')
+    ->leftJoin('customers', 'customer_supports.customer_name', '=', 'customers.id')
+    ->leftJoin('tbl_employees', 'customer_supports.assigned_employee', '=', 'tbl_employees.id')
+    ->select(
+        'customer_supports.*',
+        'customers.name as customer_name_display',
+        'tbl_employees.name as employee_name'
+    )
+    ->get();
         $customers = DB::table('customers')->get();
         $employees = DB::table('tbl_employees')->get();
 
