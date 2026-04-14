@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Models\Agents;
 use App\Models\User;
 use App\Models\Leads;
@@ -62,13 +61,14 @@ public function index()
         if ($employee) {
             $loggedInEmployeeId = $employee->id;
         }
-        
+         $allleads=DB::table('leads')->where('assign_id',Auth::id())->count();
          $totalleads=DB::table('leads')->where('assign_id',Auth::id())->where('sale_status',null)->count();
          $proccessingleads=DB::table('leads')->where('assign_id',Auth::id())->where('sale_status',2)->count();
          $convertedleads=DB::table('leads')->where('assign_id',Auth::id())->where('sale_status',1)->count();
           $deadleads=DB::table('leads')->where('assign_id',Auth::id())->where('sale_status',3)->count();
         
     }else{
+        $allleads=DB::table('leads')->count();
          $totalleads=DB::table('leads')->where('sale_status',null)->count();
           $proccessingleads=DB::table('leads')->where('sale_status',2)->count();
             $convertedleads=DB::table('leads')->where('sale_status',1)->count();
@@ -102,8 +102,17 @@ public function index()
             'todayReminders'  => $reminder->reminder_count,
         ];
     }
+$customer_support = DB::table('customer_supports')
+    ->where('status', 0)
+    ->get();
 
-    return view('dashboard', compact('role', 'usersWithLeads','totalleads','proccessingleads','convertedleads','deadleads'));
+$customer_support_count = $customer_support->count();
+$latest_customers = DB::table('customers')
+    ->orderBy('created_at', 'desc')
+    ->limit(10)
+    ->get();
+
+    return view('dashboard', compact('role','latest_customers','customer_support_count','customer_support','usersWithLeads','allleads','totalleads','proccessingleads','convertedleads','deadleads'));
 }
     public function agent(){
         $disctrict=DB::table('districts')->get();
