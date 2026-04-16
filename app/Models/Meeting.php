@@ -14,7 +14,8 @@ class Meeting extends Model
         'link',
         'meeting_date',
         'meeting_time',
-        'assigned_staff'
+        'assigned_staff',
+        'status'
     ];
     
 }
