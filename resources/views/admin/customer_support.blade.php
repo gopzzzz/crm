@@ -46,6 +46,7 @@
                                     <th>#</th>
                                     <th>Customer Name</th>
                                     <th>Issue</th>
+                                    <th>Ticket</th>
                                     <th>Assigned</th>
                                     <th>Status</th>
                                     <th>Actions</th>
@@ -59,9 +60,10 @@
                                         <td>{{ $i }}</td>
                                         <td>{{ $key->customer_name_display }}</td>
                                         <td>{{ $key->issue }}</td>
+                                        <td>{{ $key->ticket }}</td>
                                         <td>{{ $key->employee_name }}</td>
                                         <td>
-                                            {{ [0 => 'Pending', 1 => 'Processing', 2 => 'Completed'][$key->status] ?? 'Unknown' }}
+                                            {{ [0 => 'Queue', 1 => 'Open', 2 => 'Closed'][$key->status] ?? 'Unknown' }}
                                         </td>
                 
                                         <td>
@@ -69,7 +71,7 @@
                                           style="cursor:pointer;"
                                           data-bs-toggle="modal"
                                           data-bs-target="#editcustomersupportmodal"
-                                          onclick="setCustomerSupport('{{ $key->id }}', '{{ e($key->customer_name) }}', '{{ e($key->issue) }}', '{{ $key->status }}','{{ $key->assigned_employee }}')">
+                                          onclick="setCustomerSupport('{{ $key->id }}', '{{ e($key->customer_name) }}', '{{ e($key->issue) }}','{{ e($key->ticket) }}', '{{ $key->status }}','{{ $key->assigned_employee }}')">
                                         </i>
                                         
 
@@ -118,6 +120,11 @@
                     </div>
 
                     <div class="mb-3">
+                        <label class="form-label">Ticket</label>
+                        <input type="text" name="ticket" class="form-control" placeholder="Enter ticket">
+                    </div>
+
+                    <div class="mb-3">
                         <label>Assign Employee</label>
                         <select name="assigned_employee" class="form-control">
                             <option value="">Select Employee</option>
@@ -126,6 +133,15 @@
                             @endforeach
                         </select>
                     </div>
+
+                        <div class="mb-3">
+    <label class="form-label">Status</label>
+    <select name="status" id="status" class="form-control">
+        <option value="0">Queue</option>
+        <option value="1">Open</option>
+        <option value="2">Closed</option>
+    </select>
+</div>
                     
                 </div>
 
@@ -168,6 +184,11 @@
                     </div>
 
                     <div class="mb-3">
+                        <label class="form-label">Ticket</label>
+                        <input type="text" name="ticket" id="ticket_edit" class="form-control">
+                    </div>
+
+                    <div class="mb-3">
                         <label>Assign Employee</label>
                         <select name="assigned_employee" id="assigned_employee_edit" class="form-control">
                             <option value="">Select Employee</option>
@@ -180,9 +201,9 @@
                     <div class="mb-3">
     <label class="form-label">Status</label>
     <select name="status" id="status" class="form-control">
-        <option value="0">Pending</option>
-        <option value="1">Processing</option>
-        <option value="2">Completed</option>
+        <option value="0">Queue</option>
+        <option value="1">Open</option>
+        <option value="2">Closed</option>
     </select>
 </div>
                     
@@ -198,12 +219,13 @@
     </div>
 </div>
 <script>
-   function setCustomerSupport(id, name, issue, status, assigned_employee) {
+   function setCustomerSupport(id, name, issue,ticket, status, assigned_employee) {
     document.getElementById('customerid').value = id || '';
     document.getElementById('customer_name_edit').value = name || '';
     document.getElementById('issue').value = issue || '';
     document.getElementById('status').value = status || '0';
     document.getElementById('assigned_employee_edit').value = assigned_employee || '';
+    document.getElementById('ticket_edit').value = ticket || '';
 }
 </script>
 

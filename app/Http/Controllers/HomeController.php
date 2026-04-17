@@ -792,7 +792,7 @@ public function menulist()
             'menus.*',
             'tbl_employees.name as employee_name'
         )
-        ->orderBy('menus.id', 'desc')
+        ->orderBy('menus.created_at', 'desc')
         ->get();
 
     $employees = DB::table('tbl_employees')->get();
@@ -831,7 +831,7 @@ if ($request->hasFile('image')) {
         'status' => $request->status,
     ]);
 
-    return redirect()->back()->with('success', 'Menu added successfully!');
+    return redirect()->back()->with('success', 'Task added successfully!');
 }
 
 public function menuedit(Request $request)
@@ -870,7 +870,7 @@ $menu->status = $request->status;
     
     $menu->save();
 
-    return redirect()->back()->with('success', 'Menu updated successfully!');
+    return redirect()->back()->with('success', 'Task updated successfully!');
 }
 
 public function customerslist()
@@ -888,6 +888,11 @@ public function storecustomer(Request $request)
         'email' => 'required|string|max:255',
         'business_type' => 'nullable|string|max:255',
         'note' => 'nullable|string',
+        'address' => 'nullable|string|max:1000',
+        'position' => 'nullable|string|max:255',
+        'phone_number' => 'required|string|max:20',
+        'secondary_number' => 'nullable|string|max:20',
+        'status' => 'required|in:0,1',
     ]);
 
     Customer::create([
@@ -895,6 +900,11 @@ public function storecustomer(Request $request)
         'email' => $request->email,
         'business_type' => $request->business_type,
         'note' => $request->note,
+        'address' => $request->address,
+        'position' => $request->position,
+        'phone_number' => $request->phone_number,
+        'secondary_number' => $request->secondary_number,
+        'status' => $request->status,
     ]);
 
     return redirect()->back()->with('success', 'Customer added successfully!');
@@ -908,6 +918,11 @@ public function customeredit(Request $request)
         'email' => 'nullable|string',
         'business_type' => 'nullable|string|max:255',
         'note' => 'nullable|string',
+        'address' => 'nullable|string|max:1000',
+        'position' => 'nullable|string|max:255',
+        'phone_number' => 'required|string|max:20',
+        'secondary_number' => 'nullable|string|max:20',
+        'status' => 'required|in:0,1',
     ]);
 
     $customer = Customer::findOrFail($request->id);
@@ -916,6 +931,11 @@ public function customeredit(Request $request)
     $customer->email = $request->email;
     $customer->business_type = $request->business_type;
     $customer->note = $request->note;
+    $customer->address = $request->address;
+    $customer->position = $request->position;
+    $customer->phone_number = $request->phone_number;
+    $customer->secondary_number = $request->secondary_number;
+    $customer->status = $request->status;
     $customer->save();
 
     return redirect()->back()->with('success', 'Customer updated successfully!');
@@ -939,6 +959,7 @@ public function storemeeting(Request $request)
         'title' => 'required|string|max:255',
         'description' => 'nullable|string',
         'link' => 'nullable|string|max:255',
+        'status' => 'required|in:0,1',
         
     ]);
 
@@ -949,6 +970,7 @@ public function storemeeting(Request $request)
         'meeting_date' => $request->meeting_date,
         'meeting_time' => $request->meeting_time,
         'assigned_staff' => $request->assigned_staff,
+        'status' => $request->status,
     ]);
 
     return redirect()->back()->with('success', 'Meeting added successfully!');
@@ -962,6 +984,7 @@ public function meetingedit(Request $request)
         'title' => 'required|string|max:255',
         'description' => 'nullable|string',
         'link' => 'nullable|string|max:255',
+        'status' => 'required|in:0,1',
     ]);
 
     $meeting = Meeting::findOrFail($request->id);
@@ -974,6 +997,7 @@ public function meetingedit(Request $request)
 }
     $meeting->meeting_date = $request->meeting_date;
     $meeting->meeting_time = $request->meeting_time;
+    $meeting->status = $request->status;
     $meeting->save();
 
     return redirect()->back()->with('success', 'Meeting updated successfully!');

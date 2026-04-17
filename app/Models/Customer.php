@@ -13,7 +13,12 @@ class Customer extends Model
         'name',
         'email',
         'business_type',
-        'note'
+        'note',
+        'address',
+        'position',
+        'phone_number',
+        'secondary_number',
+        'status'
     ];
 
 }

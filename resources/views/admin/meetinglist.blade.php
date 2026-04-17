@@ -50,6 +50,7 @@
                                     <th>Date</th>
                                     <th>Time</th>
                                     <th>Assign Staff</th>
+                                    <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -66,11 +67,29 @@
                                         <td>{{ $key-> meeting_time}}</td>
                                         <td>{{ $key->staff_name }}</td>
                                         <td>
+                                             @php
+                                             $statusMap = [
+                                             0 => ['text' => 'Scheduled', 'class' => 'bg-primary'],
+                                             1 => ['text' => 'Completed', 'class' => 'bg-success']
+                                            
+                                             ];
+                                             @endphp
+                                             
+                                        @if(isset($statusMap[$key->status]))
+                                        <span class="badge {{ $statusMap[$key->status]['class'] }}">
+                                            {{ $statusMap[$key->status]['text'] }}
+                                        </span>
+                                        
+                                        @else
+                                        <span class="badge bg-secondary">Unknown</span>
+                                        @endif
+                                    </td>
+                                        <td>
                                          <i class="fa fa-pencil-alt text-primary"
                                          style="cursor:pointer;"
                                          data-bs-toggle="modal"
                                          data-bs-target="#editmeetingmodal"
-                                         onclick="setMeeting('{{ $key->id }}','{{ e($key->title) }}','{{ e($key->description) }}','{{ e($key->link) }}','{{ $key->meeting_date }}','{{ $key->meeting_time }}','{{ e($key->assigned_staff) }}')">
+                                         onclick="setMeeting('{{ $key->id }}','{{ e($key->title) }}','{{ e($key->description) }}','{{ e($key->link) }}','{{ $key->meeting_date }}','{{ $key->meeting_time }}','{{ e($key->assigned_staff) }}','{{ $key->status }}')">
                                         </i>
                                         
 
@@ -90,7 +109,7 @@
 
 {{-- Add Meeting Modal --}}
 <div class="modal fade" id="addMeetingModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
             <form action="{{ route('storemeeting') }}" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -101,7 +120,8 @@
                 </div>
 
                 <div class="modal-body">
-                    <div class="mb-3">
+                    <div class="row">
+                    <div class="col-md-6 mb-3">
                         <label class="form-label">Title</label>
                         <input
                             type="text"
@@ -112,7 +132,7 @@
                         />
                     </div>
 
-                    <div class="mb-3">
+                   <div class="col-12 mb-3">
                         <label class="form-label">Description</label>
                         <textarea
                             class="form-control"
@@ -122,25 +142,25 @@
                         ></textarea>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="col-md-6 mb-3">
                         <label class="form-label">Link</label>
                         <input
-                            type="text"
+                            type="url"
                             class="form-control"
                             placeholder="Enter link"
                             name="link"
                         />
                     </div>
-                    <div class="mb-3">
+                     <div class="col-md-6 mb-3">
                         <label>Date</label>
                         <input type="date" name="meeting_date" class="form-control">
                     </div>
                     
-                    <div class="mb-3">
+                    <div class="col-md-6 mb-3">
                         <label>Time</label>
                         <input type="time" name="meeting_time" class="form-control">
                     </div>
-                    <div class="mb-3">
+                    <div class="col-md-6 mb-3">
                         <label>Assign Staff</label>
                         <select name="assigned_staff" class="form-control">
                             <option value="">Select Staff</option>
@@ -149,12 +169,20 @@
                             @endforeach
                         </select>
                     </div>
+                    <div class="col-md-6 mb-3">
+                    <label class="form-label">Status</label>
+                    <select name="status" id="status" class="form-control">
+                        <option value="0">Scheduled</option>
+                        <option value="1">Completed</option>
+                    </select>
+                </div>
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Create Meeting</button>
                 </div>
+              </div>
             </form>
         </div>
     </div>
@@ -162,7 +190,7 @@
 
 {{-- Edit Meeting Modal --}}
 <div class="modal fade" id="editmeetingmodal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
             <form method="POST" action="{{ url('meetingedit') }}" enctype="multipart/form-data" name="meetingeditform">
                 @csrf
@@ -174,33 +202,33 @@
 
                 <div class="modal-body">
                     <input type="hidden" name="id" id="meetingid" value="">
-
-                    <div class="mb-3">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
                         <label class="form-label">Title</label>
                         <input type="text" class="form-control" id="meeting_title" placeholder="Enter title" name="title" />
                     </div>
 
-                    <div class="mb-3">
+                     <div class="col-12 mb-3">
                         <label class="form-label">Description</label>
                         <textarea class="form-control" id="meeting_description" placeholder="Enter description" name="description" rows="3"></textarea>
                     </div>
 
-                    <div class="mb-3">
+                     <div class="col-md-6 mb-3">
                         <label class="form-label">Link</label>
                         <input type="text" class="form-control" id="link" placeholder="Enter link" name="link" />
                     </div>
 
-                    <div class="mb-3">
+                     <div class="col-md-6 mb-3">
                         <label>Date</label>
                         <input type="date" name="meeting_date" id="meeting_date" class="form-control">
                     </div>
                     
-                    <div class="mb-3">
+                     <div class="col-md-6 mb-3">
                         <label>Time</label>
                         <input type="time" name="meeting_time" id="meeting_time" class="form-control">
                     </div>
                     
-                    <div class="mb-3">
+                      <div class="col-md-6 mb-3">
                         <label>Assign Staff</label>
                         <select name="assigned_staff" id="assigned_staff_edit" class="form-control">
                             <option value="">Select Staff</option>
@@ -208,18 +236,27 @@
                             <option value="{{ $emp->id }}">{{ $emp->name }}</option>@endforeach
                         </select>
                     </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Status</label>
+                    <select name="status" id="status_edit" class="form-control">
+                        <option value="0">Scheduled</option>
+                        <option value="1">Completed</option>
+                       
+                    </select>
+                </div>
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
+               </div>
             </form>
         </div>
     </div>
 </div>
 <script>
-    function setMeeting(id, title, description, link, date, time, staff) {
+    function setMeeting(id, title, description, link, date, time, staff,status) {
     document.getElementById('meetingid').value = id || '';
     document.getElementById('meeting_title').value = title || '';
     document.getElementById('meeting_description').value = description || '';
@@ -228,6 +265,7 @@
     document.getElementById('meeting_date').value = date || '';
     document.getElementById('meeting_time').value = time || '';
     document.getElementById('assigned_staff_edit').value = staff || '';
+     document.getElementById('status_edit').value = status || '0';
 }
 </script>
 

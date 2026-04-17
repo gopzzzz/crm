@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomerSupportController;
-
+use App\Http\Controllers\FolderController;
+use App\Http\Controllers\DocumentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -71,6 +72,13 @@ Route::post('/meetingedit', [App\Http\Controllers\HomeController::class, 'meetin
 Route::get('/customer-support', [CustomerSupportController::class, 'index'])->name('customer_support');
 Route::post('/storecustomer-support', [CustomerSupportController::class, 'store'])->name('storecustomer_support');
 Route::post('/editcustomer-support', [CustomerSupportController::class, 'edit'])->name('editcustomer_support');
+Route::get('/folder', [FolderController::class, 'index'])->name('folder');
+Route::post('/storefolder', [App\Http\Controllers\FolderController::class, 'storefolder'])->name('storefolder');
+Route::post('/folderedit', [App\Http\Controllers\FolderController::class, 'folderedit'])->name('folderedit');
+Route::get('/documents', [DocumentController::class, 'index'])->name('documents');
+Route::post('/storedocument', [DocumentController::class, 'storedocument'])->name('storedocument');
+Route::post('/documentedit', [DocumentController::class, 'documentedit'])->name('documentedit');
+
 
 Route::get('/employeelist', [App\Http\Controllers\EmployeeController::class, 'employeelist'])->name('employeelist');
 Route::get('/addemployee', [App\Http\Controllers\EmployeeController::class, 'addemployee'])->name('addemployee');

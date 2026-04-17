@@ -126,8 +126,8 @@
 
 {{-- Add Menu Modal --}}
 <div class="modal fade" id="addMenuModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content p-2">
             <form action="{{ route('storemenu') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
@@ -137,7 +137,8 @@
                 </div>
 
                 <div class="modal-body">
-                    <div class="mb-3">
+                    <div class="row">
+                         <div class="col-md-6 mb-3">
                         <label class="form-label">Title</label>
                         <input
                             type="text"
@@ -148,7 +149,7 @@
                         />
                     </div>
 
-                    <div class="mb-3">
+                     <div class="col-md-12 mb-3">
                         <label class="form-label">Description</label>
                         <textarea
                             class="form-control"
@@ -158,7 +159,7 @@
                         ></textarea>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="col-md-6 mb-3">
                     <label class="form-label">Assigned Name</label>
                     <select name="assigned_name" id="assigned_name" class="form-control">
                         <option value="">Select Employee</option>
@@ -167,17 +168,17 @@
                         @endforeach
                     </select>
                    </div>
-                   <div class="mb-3">
+                    <div class="col-md-6 mb-3">
                     <label class="form-label">Image</label>
                     <input type="file" name="image" class="form-control">
                 </div>
 
-                <div class="mb-3">
+                <div class="col-md-6 mb-3">
                     <label class="form-label">Due Date</label>
                     <input type="date" name="due_date" class="form-control">
                 </div>
 
-                <div class="mb-3">
+                <div class="col-md-6 mb-3">
                     <label class="form-label">Priority</label>
                     <select name="priority" class="form-control">
                         <option value="1">Hot</option>
@@ -185,7 +186,7 @@
                     </select>
                 </div>
 
-                <div class="mb-3">
+                <div class="col-md-6 mb-3">
                     <label class="form-label">Status</label>
                     <select name="status" id="status" class="form-control">
                         <option value="0">Pending</option>
@@ -200,6 +201,7 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Create Task</button>
                 </div>
+</div>
             </form>
         </div>
     </div>
@@ -207,8 +209,8 @@
 
 {{-- Edit Menu Modal --}}
 <div class="modal fade" id="editmenumodal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content p-2">
             <form method="POST" action="{{ url('menuedit') }}" enctype="multipart/form-data" name="menueditform">
                 @csrf
 
@@ -219,17 +221,17 @@
 
                 <div class="modal-body">
                     <input type="hidden" name="id" id="menuid" value="">
-
-                    <div class="mb-3">
+                 <div class="row">
+                    <div class="col-md-6 mb-3">
                         <label class="form-label">Title</label>
                         <input type="text" class="form-control" id="menu_title" placeholder="Enter title" name="title" />
                     </div>
 
-                    <div class="mb-3">
+                     <div class="col-md-6 mb-3">
                         <label class="form-label">Description</label>
                         <textarea class="form-control" id="menu_description" placeholder="Enter description" name="description" rows="3"></textarea>
                     </div>
-                    <div class="mb-3">
+                    <div class="col-md-6 mb-3">
                     <label class="form-label">Assigned Name</label>
                     <select name="assigned_name" id="assigned_name_edit" class="form-control">
                         <option value="">Select Employee</option>
@@ -238,17 +240,17 @@
                         @endforeach
                     </select>
                    </div>
-                   <div class="mb-3">
+                    <div class="col-md-6 mb-3">
                     <label class="form-label">Image</label>
                     <input type="file" name="image" class="form-control">
                 </div>
 
-                <div class="mb-3">
+                <div class="col-md-6 mb-3">
                     <label class="form-label">Due Date</label>
                     <input type="date" name="due_date" id="due_date_edit" class="form-control">
                 </div>
 
-                <div class="mb-3">
+                <div class="col-md-6 mb-3">
                     <label class="form-label">Priority</label>
                     <select name="priority" id="priority_edit" class="form-control">
                         <option value="1">Hot</option>
@@ -256,7 +258,7 @@
                     </select>
                 </div>
 
-                <div class="mb-3">
+                 <div class="col-md-6 mb-3">
                     <label class="form-label">Status</label>
                     <select name="status" id="status_edit" class="form-control">
                         <option value="0">Pending</option>
@@ -271,6 +273,7 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
+</div>
             </form>
         </div>
     </div>

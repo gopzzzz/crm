@@ -152,6 +152,20 @@
     </a>
 </li>
 
+<li class="nav-item {{ request()->is('folder') ? 'active' : '' }}">
+                <a href="{{url('folder')}}" class="nav-link">
+                  <i class="nav-icon bi bi-grip-horizontal"></i>
+                  <p>Folder</p>
+                </a>
+              </li>
+
+              <li class="nav-item {{ request()->is('documents') ? 'active' : '' }}">
+                <a href="{{url('documents')}}" class="nav-link">
+                  <i class="nav-icon bi bi-grip-horizontal"></i>
+                  <p>Documents</p>
+                </a>
+              </li>
+
               
 
               
