@@ -265,7 +265,7 @@
     document.getElementById('meeting_date').value = date || '';
     document.getElementById('meeting_time').value = time || '';
     document.getElementById('assigned_staff_edit').value = staff || '';
-     document.getElementById('status_edit').value = status || '0';
+    document.getElementById('status_edit').value = status || '0';
 }
 </script>
 

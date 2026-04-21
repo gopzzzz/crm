@@ -35,7 +35,7 @@ public function storefolder(Request $request)
     return redirect()->back()->with('success', 'Folder created successfully!');
 }
 
-public function update(Request $request)
+public function folderedit(Request $request)
 {
     $request->validate([
         'id' => 'required',

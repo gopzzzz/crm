@@ -19,10 +19,14 @@ class CustomerSupportController extends Controller
     ->select(
         'customer_supports.*',
         'customers.name as customer_name_display',
+        'customers.phone_number as customer_phone',
         'tbl_employees.name as employee_name'
     )
+    ->orderBy('customer_supports.id', 'desc') 
     ->get();
-        $customers = DB::table('customers')->get();
+        $customers = DB::table('customers')
+    ->select('id', 'name', 'phone_number')
+    ->get();
         $employees = DB::table('tbl_employees')->get();
 
         return view('admin.customer_support', compact('customer_supports', 'role','customers','employees'));

@@ -884,16 +884,26 @@ public function customerslist()
 public function storecustomer(Request $request)
 {
     $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|string|max:255',
-        'business_type' => 'nullable|string|max:255',
-        'note' => 'nullable|string',
-        'address' => 'nullable|string|max:1000',
-        'position' => 'nullable|string|max:255',
-        'phone_number' => 'required|string|max:20',
-        'secondary_number' => 'nullable|string|max:20',
-        'status' => 'required|in:0,1',
-    ]);
+    'name' => 'required|string|max:255',
+    'email' => 'required|email|max:255',
+    'business_type' => 'required|string|max:255',
+    'address' => 'required|string',
+    'position' => 'required|string|max:255',
+    'phone_number' => 'required|string|max:20',
+    'status' => 'required|in:0,1',
+
+    // optional
+    'note' => 'nullable|string',
+    'secondary_number' => 'nullable|string|max:20',
+    ], [
+    'name.required' => 'Customer name is required',
+    'email.required' => 'Email is required',
+    'business_type.required' => 'Business type is required',
+    'address.required' => 'Address is required',
+    'position.required' => 'Position is required',
+    'phone_number.required' => 'Phone number is required',
+    'status.required' => 'Status is required',
+]);
 
     Customer::create([
         'name' => $request->name,
@@ -913,17 +923,28 @@ public function storecustomer(Request $request)
 public function customeredit(Request $request)
 {
     $request->validate([
-        'id' => 'required|integer|exists:customers,id',
-        'name' => 'required|string|max:255',
-        'email' => 'nullable|string',
-        'business_type' => 'nullable|string|max:255',
-        'note' => 'nullable|string',
-        'address' => 'nullable|string|max:1000',
-        'position' => 'nullable|string|max:255',
-        'phone_number' => 'required|string|max:20',
-        'secondary_number' => 'nullable|string|max:20',
-        'status' => 'required|in:0,1',
-    ]);
+    'id' => 'required|exists:customers,id',
+
+    'name' => 'required|string|max:255',
+    'email' => 'required|email|max:255',
+    'business_type' => 'required|string|max:255',
+    'address' => 'required|string',
+    'position' => 'required|string|max:255',
+    'phone_number' => 'required|string|max:20',
+    'status' => 'required|in:0,1',
+
+    // optional
+    'note' => 'nullable|string',
+    'secondary_number' => 'nullable|string|max:20',
+    ], [
+    'name.required' => 'Customer name is required',
+    'email.required' => 'Email is required',
+    'business_type.required' => 'Business type is required',
+    'address.required' => 'Address is required',
+    'position.required' => 'Position is required',
+    'phone_number.required' => 'Phone number is required',
+    'status.required' => 'Status is required',
+]);
 
     $customer = Customer::findOrFail($request->id);
 
@@ -958,7 +979,7 @@ public function storemeeting(Request $request)
     $request->validate([
         'title' => 'required|string|max:255',
         'description' => 'nullable|string',
-        'link' => 'nullable|string|max:255',
+        'link' => 'nullable|url|max:255',
         'status' => 'required|in:0,1',
         
     ]);
@@ -983,7 +1004,7 @@ public function meetingedit(Request $request)
         'id' => 'required|integer|exists:meetings,id',
         'title' => 'required|string|max:255',
         'description' => 'nullable|string',
-        'link' => 'nullable|string|max:255',
+        'link' => 'nullable|url|max:255',
         'status' => 'required|in:0,1',
     ]);
 
