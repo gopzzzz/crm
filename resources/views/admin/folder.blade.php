@@ -45,6 +45,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
+                                    <th>Actions</th>
                                     
                                 </tr>
                             </thead>
@@ -55,7 +56,17 @@
                                     <tr>
                                         <td>{{ $i }}</td>
                                         <td>{{ $key->name }}</td>
+
+                                        <td>
+                                         <i class="fa fa-pencil-alt text-primary"
+                                         style="cursor:pointer;"
+                                         data-bs-toggle="modal"
+                                         data-bs-target="#editfoldermodal"
+                                         onclick="setFolder('{{ $key->id }}', '{{ e($key->name) }}')"></i>
                                         
+
+                                            
+                                        </td>
                                         
                                     </tr>
                                     @php $i++; @endphp
@@ -92,8 +103,6 @@
                             required
                         />
                     </div>
-
-                   
                 </div>
 
                 <div class="modal-footer">
@@ -104,6 +113,49 @@
         </div>
     </div>
 </div>
+{{-- Edit Menu Modal --}}
+<div class="modal fade" id="editfoldermodal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="POST" action="{{ url('folderedit') }}" enctype="multipart/form-data" name="menueditform">
+                @csrf
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Folder</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="folder_id" value="">
+                 
+                    <!--  Name -->
+                    <div class="mb-3">
+                        <label>Name</label>
+                        <input type="text" name="name" id="name" class="form-control">
+                    </div>
+
+                    
+            
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+</div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+function setFolder(id, name) {
+    document.getElementById('folder_id').value = id || '';
+    document.getElementById('name').value = name || '';
+
+    
+
+    console.log("Edit Data:", id, name,);
+}
+</script>
 
 
 

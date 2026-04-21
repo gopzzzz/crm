@@ -58,12 +58,26 @@
                                 @foreach($customer_supports as $key)
                                     <tr>
                                         <td>{{ $i }}</td>
-                                        <td>{{ $key->customer_name_display }}</td>
+                                        <td>{{ $key->customer_name_display }} - {{ $key->customer_phone }}</td>
                                         <td>{{ $key->issue }}</td>
                                         <td>{{ $key->ticket }}</td>
                                         <td>{{ $key->employee_name }}</td>
                                         <td>
-                                            {{ [0 => 'Queue', 1 => 'Open', 2 => 'Closed'][$key->status] ?? 'Unknown' }}
+                                            @php
+$statusMap = [
+    0 => ['text' => 'Queue', 'class' => 'bg-primary'],
+    1 => ['text' => 'Open', 'class' => 'bg-warning'],
+    2 => ['text' => 'Closed', 'class' => 'bg-success'],
+];
+@endphp
+
+@if(isset($statusMap[$key->status]))
+    <span class="badge {{ $statusMap[$key->status]['class'] }}">
+        {{ $statusMap[$key->status]['text'] }}
+    </span>
+@else
+    <span class="badge bg-secondary">Unknown</span>
+@endif
                                         </td>
                 
                                         <td>
@@ -104,10 +118,13 @@
                 <div class="modal-body">
                     <label>Customer Name</label>
                     <select name="customer_name" class="form-control">
-                        <option value="">Select Customer</option>
-                        @foreach($customers as $cust)
-                        <option value="{{ $cust->id }}">{{ $cust->name }}</option>@endforeach
-                    </select>
+    <option value="">Select Customer</option>
+    @foreach($customers as $cust)
+        <option value="{{ $cust->id }}">
+    {{ $cust->name }}{{ !empty($cust->phone_number) ? ' - '.$cust->phone_number : '' }}
+</option>
+    @endforeach
+</select>
 
                     <div class="mb-3">
                         <label class="form-label">Issue</label>
@@ -169,14 +186,17 @@
                 <div class="modal-body">
                     <input type="hidden" name="id" id="customerid" value="">
 
-                    <div class="mb-3">
-                        <label class="form-label">Customer Name</label>
-                        <select name="customer_name" id="customer_name_edit" class="form-control">
-                            <option value="">Select Customer</option>
-                            @foreach($customers as $cust)
-                            <option value="{{ $cust->id }}">{{ $cust->name }}</option>@endforeach
-                        </select>
-                        </div>
+                   <div class="mb-3">
+    <label class="form-label">Customer Name</label>
+    <select name="customer_name" id="customer_name_edit" class="form-control">
+        <option value="">Select Customer</option>
+        @foreach($customers as $cust)
+            <option value="{{ $cust->id }}">
+                {{ $cust->name }}{{ !empty($cust->phone_number) ? ' - '.$cust->phone_number : '' }}
+            </option>
+        @endforeach
+    </select>
+</div>
 
                     <div class="mb-3">
                         <label class="form-label">Issue</label>

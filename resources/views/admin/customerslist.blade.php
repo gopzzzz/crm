@@ -102,49 +102,64 @@
 
 {{-- Add Customer Modal --}}
 <div class="modal fade" id="addCustomerModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
             <form action="{{ route('storecustomer') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-
+                
+                
                 <div class="modal-header">
                     <h5 class="modal-title">Create Customer</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <div class="modal-body">
-                    <div class="mb-3">
+                    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+                    <div class="row">
+                    <div class="col-md-6 mb-3">
                         <label class="form-label">Name</label>
                         <input
                             type="text"
                             class="form-control"
                             placeholder="Enter Name"
                             name="name"
+                            value="{{ old('name') }}"
                             required
                         />
                     </div>
 
-                    <div class="mb-3">
+                    <div class="col-md-6 mb-3">
                         <label class="form-label">Email</label>
                         <input
-                            type="text"
+                            type="email"
                             class="form-control"
                             placeholder="Enter Email"
                             name="email"
+                            value="{{ old('email') }}"
                             required
                         />
                     </div>
 
-                    <div class="mb-3">
+                    <div class="col-md-6 mb-3">
                         <label class="form-label">Business Type</label>
                         <input
                             type="text"
                             class="form-control"
                             placeholder="Enter business type"
                             name="business_type"
+                            value="{{ old('business_type') }}"
+                             required
                         />
                     </div>
-                    <div class="mb-3">
+                    <div class="col-12 mb-3">
                         <label class="form-label">Note</label>
                         <textarea
                             class="form-control"
@@ -153,31 +168,31 @@
                             rows="3"
                         ></textarea> 
                     </div>
-                    <div class="mb-3">
+                    <div class="col-md-6 mb-3">
     <label class="form-label">Address</label>
-    <textarea name="address" class="form-control" placeholder="Enter address"></textarea>
+    <textarea name="address" class="form-control" placeholder="Enter address"  required>{{ old('address') }}</textarea>
 </div>
 
-<div class="mb-3">
+<div class="col-md-6 mb-3">
     <label class="form-label">Position</label>
-    <input type="text" name="position" class="form-control" placeholder="Enter position">
+    <input type="text" name="position" class="form-control" placeholder="Enter position" value="{{ old('position') }}"  required>
 </div>
 
-<div class="mb-3">
+<div class="col-md-6 mb-3">
     <label>Phone Number</label>
-    <input type="text" name="phone_number" class="form-control" placeholder="Primary number">
+    <input type="text" name="phone_number" class="form-control" placeholder="Primary number" value="{{ old('phone_number') }}"  required>
 </div>
 
-<div class="mb-3">
+<div class="col-md-6 mb-3">
     <label>Secondary Number</label>
     <input type="text" name="secondary_number" class="form-control" placeholder="Secondary number">
 </div>
 
-<div class="mb-3">
+<div class="col-md-6 mb-3">
     <label>Status</label>
-    <select name="status" class="form-control">
-        <option value="1">Active</option>
-        <option value="0">Inactive</option>
+    <select name="status" class="form-control"  required>
+       <option value="1" {{ old('status') == 1 ? 'selected' : '' }}>Active</option>
+       <option value="0" {{ old('status') == 0 ? 'selected' : '' }}>Inactive</option>
     </select>
 </div>
                 </div>
@@ -186,17 +201,20 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Create Customer</button>
                 </div>
+
             </form>
+            </div>
         </div>
     </div>
 </div>
 
 {{-- Edit Customer Modal --}}
 <div class="modal fade" id="editcustomermodal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
             <form method="POST" action="{{ url('customeredit') }}" enctype="multipart/form-data" name="customereditform">
                 @csrf
+                
 
                 <div class="modal-header">
                     <h5 class="modal-title">Edit Customer</h5>
@@ -205,48 +223,58 @@
 
                 <div class="modal-body">
                     <input type="hidden" name="id" id="customerid" value="">
+                    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+                    <div class="row">
 
-                    <div class="mb-3">
+                    <div class="col-md-6 mb-3">
                         <label class="form-label">Name</label>
-                        <input type="text" class="form-control" id="customer_name" placeholder="Enter name" name="name" />
+                        <input type="text" class="form-control" id="customer_name" placeholder="Enter name" name="name"  required  />
                     </div>
 
-                    <div class="mb-3">
+                    <div class="col-md-6 mb-3">
                         <label class="form-label">Email</label>
-                        <input type="text" class="form-control" id="customer_email" placeholder="Enter email" name="email" rows="3">
+                        <input type="text" class="form-control" id="customer_email" placeholder="Enter email" name="email" rows="3"  required>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="col-md-6 mb-3">
                         <label class="form-label">Business Type</label>
-                        <input type="text" class="form-control" id="business_type" placeholder="Enter business type" name="business_type" />
+                        <input type="text" class="form-control" id="business_type" placeholder="Enter business type" name="business_type"  required />
                     </div>
-                    <div class="mb-3">
+                    <div class="col-12 mb-3">
                         <label class="form-label">Note</label>
                         <textarea class="form-control" id="customer_note" placeholder="Enter note" name="note" rows="3"></textarea>
                     </div>
-                    <div class="mb-3">
+                    <div class="col-md-6 mb-3">
     <label class="form-label">Address</label>
-    <textarea name="address" id="address_edit" class="form-control"></textarea>
+    <textarea name="address" id="address_edit" class="form-control"  required></textarea>
 </div>
 
-<div class="mb-3">
+<div class="col-md-6 mb-3">
     <label class="form-label">Position</label>
-    <input type="text" name="position" id="position_edit" class="form-control">
+    <input type="text" name="position" id="position_edit" class="form-control"  required>
 </div>
 
-<div class="mb-3">
+<div class="col-md-6 mb-3">
     <label>Phone Number</label>
-    <input type="text" name="phone_number" id="phone_edit" class="form-control">
+    <input type="text" name="phone_number" id="phone_edit" class="form-control"  required>
 </div>
 
-<div class="mb-3">
+<div class="col-md-6 mb-3">
     <label>Secondary Number</label>
-    <input type="text" name="secondary_number" id="secondary_edit" class="form-control">
+    <input type="text" name="secondary_number" id="secondary_edit" class="form-control" >
 </div>
 
-<div class="mb-3">
+<div class="col-md-6 mb-3">
     <label>Status</label>
-    <select name="status" id="status_edit" class="form-control">
+    <select name="status" id="status_edit" class="form-control"  required>
         <option value="1">Active</option>
         <option value="0">Inactive</option>
     </select>
@@ -257,7 +285,9 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
+
             </form>
+            </div>
         </div>
     </div>
 </div>
@@ -277,5 +307,11 @@
         console.log('ID set:', document.getElementById('customerid').value);
     }
 </script>
+@if ($errors->any())
+<script>
+    var myModal = new bootstrap.Modal(document.getElementById('addCustomerModal'));
+    myModal.show();
+</script>
+@endif
 
 @endsection
