@@ -70,7 +70,7 @@
 
                                         <td>{{ $key->due_date ?? '-' }}</td>
                                         <td>
-                                            @switch((int)$key->priority)
+                                            @switch($key->priority)
                                         @case(1)
                                             <span class="badge bg-danger">Hot</span>
                                         @break
