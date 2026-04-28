@@ -167,7 +167,12 @@
               </li>
 
               
-
+              <li class="nav-item {{ request()->is('attendances') ? 'active' : '' }}">
+                <a href="{{url('attendances')}}" class="nav-link">
+                  <i class="nav-icon bi bi-grip-horizontal"></i>
+                  <p>Attendance</p>
+                </a>
+              </li>
               
 
               @endif

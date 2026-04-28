@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomerSupportController;
 use App\Http\Controllers\FolderController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\AttendanceController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -78,6 +79,9 @@ Route::post('/folderedit', [App\Http\Controllers\FolderController::class, 'folde
 Route::get('/documents', [DocumentController::class, 'index'])->name('documents');
 Route::post('/storedocument', [DocumentController::class, 'storedocument'])->name('storedocument');
 Route::post('/documentedit', [DocumentController::class, 'documentedit'])->name('documentedit');
+Route::get('/attendances', [AttendanceController::class, 'index'])->name('attendances');
+Route::post('/storeattendance', [AttendanceController::class, 'store'])->name('storeattendance');
+Route::post('/attendanceedit', [AttendanceController::class, 'attendanceedit'])->name('attendanceedit');
 
 
 Route::get('/employeelist', [App\Http\Controllers\EmployeeController::class, 'employeelist'])->name('employeelist');
