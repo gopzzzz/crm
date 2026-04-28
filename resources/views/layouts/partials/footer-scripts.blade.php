@@ -341,4 +341,25 @@ $(document).on('click', '.edit_roomtype', function () {
 });
 </script>
 
+<script>
+$(document).ready(function () {
+
+    // Add new file input
+    $(document).on('click', '.addFile', function () {
+        let newRow = `
+        <div class="input-group mb-2 file-row">
+            <input type="file" name="files[]" class="form-control">
+            <button type="button" class="btn btn-danger removeFile">-</button>
+        </div>`;
+        $('#fileUploadWrapper').append(newRow);
+    });
+
+    // Remove file input
+    $(document).on('click', '.removeFile', function () {
+        $(this).closest('.file-row').remove();
+    });
+
+});
+</script>
+
     

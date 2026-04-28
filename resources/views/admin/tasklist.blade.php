@@ -9,10 +9,7 @@
             <span class="text-muted fw-light">Home /</span> Tasks
         </h4>
 
-        <!-- Add Employee Button -->
-        <div class="mb-3 text-end">
-            <a href="{{ url('taskcreate') }}" class="btn btn-primary">Add Task</a>
-        </div>
+     
 
         <!-- Employee Table -->
         <div class="card">
@@ -25,7 +22,7 @@
                             <th>Assigned User</th>
                             <th>Title</th>
                             <th>Description</th>
-                            <th>Status</th>
+                           
                            <th>Due Date</th>
                            <th>Action</th>
                         </tr>
@@ -40,19 +37,12 @@
                             </td>
                             <td>{{ $task->title }}</td>
                             <td>{{ $task->description }}</td>
-                            <td>
-                            @if ($task->status == 0)
-                                 Pending
-                            @elseif ($task->status == 1)
-                                 Proceeding
-                            @elseif ($task->status == 2)
-                                    Completed
-                            @endif
-                             </td>
+                            
                             <td>{{ $task->due_date }}</td>
                             <td>
-                                <a href="{{ route('taskedit', ['taskId' => $task->id]) }}"  class="text-primary me-2">
-                                    <i class="fas fa-edit"></i>
+                                <a href="{{ route('taskedit', ['taskId' => $task->id]) }}">
+                                    <button type="button" class="btn btn-secondary"> Open taskbar </button>
+                                    
                                 </a>
                             </td>
                         </tr>
