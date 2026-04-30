@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Models\Agents;
 use App\Models\User;
 use App\Models\Leads;
@@ -62,13 +61,14 @@ public function index()
         if ($employee) {
             $loggedInEmployeeId = $employee->id;
         }
-        
+         $allleads=DB::table('leads')->where('assign_id',Auth::id())->count();
          $totalleads=DB::table('leads')->where('assign_id',Auth::id())->where('sale_status',null)->count();
          $proccessingleads=DB::table('leads')->where('assign_id',Auth::id())->where('sale_status',2)->count();
          $convertedleads=DB::table('leads')->where('assign_id',Auth::id())->where('sale_status',1)->count();
           $deadleads=DB::table('leads')->where('assign_id',Auth::id())->where('sale_status',3)->count();
         
     }else{
+        $allleads=DB::table('leads')->count();
          $totalleads=DB::table('leads')->where('sale_status',null)->count();
           $proccessingleads=DB::table('leads')->where('sale_status',2)->count();
             $convertedleads=DB::table('leads')->where('sale_status',1)->count();
@@ -102,8 +102,17 @@ public function index()
             'todayReminders'  => $reminder->reminder_count,
         ];
     }
+$customer_support = DB::table('customer_supports')
+    ->where('status', 0)
+    ->get();
 
-    return view('dashboard', compact('role', 'usersWithLeads','totalleads','proccessingleads','convertedleads','deadleads'));
+$customer_support_count = $customer_support->count();
+$latest_customers = DB::table('customers')
+    ->orderBy('created_at', 'desc')
+    ->limit(10)
+    ->get();
+
+    return view('dashboard', compact('role','latest_customers','customer_support_count','customer_support','usersWithLeads','allleads','totalleads','proccessingleads','convertedleads','deadleads'));
 }
     public function agent(){
         $disctrict=DB::table('districts')->get();
@@ -249,6 +258,9 @@ public function index()
     }
 
     // Sorting
+    // $leadsQuery->orderBy($sortBy, $sortDirection);
+    $leadsQuery->where('leads.sale_status','!=',1);
+    $leadsQuery->orderBy('leads.status', 'ASC');
     $leadsQuery->orderBy($sortBy, $sortDirection);
     $leadsQuery->orderBy('leads.sale_status', 'desc');
 
@@ -422,6 +434,15 @@ public function index()
         $Leads->task_status    = $request->filled('task_status') ? $request->task_status : null;
        
         $Leads->save();
+
+        if( $request->sales_status == 1){
+            $customer = new Customer;
+            $customer->name=$request->full_name;
+            $customer->email=$request->email;
+            $customer->business_type=$request->roomtype;
+            $customer->note=$request->note;
+            $customer->save();
+        }
     
         return back()->with('success', 'Lead updated successfully!');
     }
@@ -691,10 +712,11 @@ public function reasignuser(Request $request){
 }
   public function tasklist(){
         $role=Auth::user()->role;
-        $tasks = DB::table('tbl_tasks')
-        ->join('users', 'tbl_tasks.assign_id', '=', 'users.id')
-        ->select('tbl_tasks.*', 'users.name') 
-        ->orderBy('tbl_tasks.id', 'desc')
+        $tasks = DB::table('menus')
+        ->join('tbl_employees', 'menus.assigned_name', '=', 'tbl_employees.id')
+        ->select('menus.*','tbl_employees.name') 
+        ->orderBy('menus.id', 'desc')
+        ->where('menus.status',4)
         ->get();
     return view('admin.tasklist',compact('tasks','role'));
     }
@@ -763,20 +785,30 @@ public function updateTask(Request $request)
 
 public function menulist()
 {
-    $role = Auth::user()->role;
+    $user = Auth::user();
 
-    $menus = DB::table('menus')
+    $query = DB::table('menus')
         ->leftJoin('tbl_employees', 'menus.assigned_name', '=', 'tbl_employees.id')
-        ->select(
+        ->select([
             'menus.*',
             'tbl_employees.name as employee_name'
-        )
-        ->orderBy('menus.created_at', 'desc')
-        ->get();
+        ])
+        ->orderByDesc('menus.created_at');
+
+    // Apply role-based filter
+    if ($user->role != 1) {
+        $query->where('tbl_employees.userid', $user->id);
+    }
+
+    $menus = $query->get();
 
     $employees = DB::table('tbl_employees')->get();
 
-    return view('admin.menulist', compact('menus', 'role', 'employees'));
+    return view('admin.menulist', [
+        'menus'     => $menus,
+        'role'      => $user->role,
+        'employees' => $employees
+    ]);
 }
 
 public function storemenu(Request $request)
@@ -789,7 +821,6 @@ public function storemenu(Request $request)
         'image' => 'nullable|image|mimes:jpg,jpeg,png',
         'due_date' => 'nullable|date',
         'priority' => 'required|in:1,2',
-        'status' => 'required|in:0,1,2,3',
     ]);
 
     $imageName = null;
@@ -807,47 +838,74 @@ if ($request->hasFile('image')) {
         'image' => $imageName ?? null,
         'due_date' => $request->due_date,
         'priority' => (int) $request->priority,
-        'status' => $request->status,
+        'status' => 0,
     ]);
 
-    return redirect()->back()->with('success', 'Task added successfully!');
+    return redirect('menus')->with('success', 'Task added successfully!');
 }
 
 public function menuedit(Request $request)
 {
-      
-    $request->validate([
-        'id' => 'required|integer|exists:menus,id',
-        'title' => 'required|string|max:255',
-        'description' => 'nullable|string',
-        'assigned_name' => 'nullable|string|max:255',
-        'image' => 'nullable|image|mimes:jpg,jpeg,png',
-        'due_date' => 'nullable|date',
-        'priority' => 'required|in:1,2',
-        'status' => 'required|in:0,1,2,3',
-    ]);
+  $request->validate([
+    'id' => 'required|integer|exists:menus,id',
+    'title' => 'required|string|max:255',
+    'description' => 'nullable|string',
+    'assigned_name' => 'nullable|string|max:255',
+    'image' => 'nullable|image|mimes:jpg,jpeg,png',
+    'due_date' => 'nullable|date',
+    'priority' => 'nullable|in:1,2',
+    'status' => 'required|in:0,1,2,3,4',
+]);
 
-    $menu = Menu::findOrFail($request->id);
+$menu = Menu::findOrFail($request->id);
 
-    
-   
-    if ($request->hasFile('image')) {
-        $imageName = uniqid() . '.' . $request->image->extension();
-        $request->image->move(public_path('uploads/menu'), $imageName);
-        $menu->image = $imageName;
-    }
+// Image upload
+if ($request->hasFile('image')) {
+    $imageName = uniqid() . '.' . $request->image->extension();
+    $request->image->move(public_path('uploads/menu'), $imageName);
+    $menu->image = $imageName;
+}
 
-    $menu->title = $request->title;
+// Always required
+$menu->title = $request->title;
+
+// Optional fields → update only if NOT NULL
+if ($request->filled('description')) {
     $menu->description = $request->description;
-    if ($request->filled('assigned_name')) {
+}
+
+if ($request->filled('assigned_name')) {
     $menu->assigned_name = $request->assigned_name;
 }
-$menu->due_date = $request->due_date;
-$menu->priority = $request->priority;
+
+if ($request->filled('due_date')) {
+    $menu->due_date = $request->due_date;
+}
+
+if ($request->filled('priority')) {
+    $menu->priority = $request->priority;
+}
+
+// Status (since required, safe to assign)
 $menu->status = $request->status;
 
-    
-    $menu->save();
+$menu->save();
+
+if ($request->hasFile('files')) {
+    foreach ($request->file('files') as $file) {
+        if ($file) {
+            $fileName = uniqid() . '.' . $file->extension();
+            $file->move(public_path('uploads/task'), $fileName);
+
+            DB::table('related_documents')->insert([
+                'task_id'   => $menu->id,
+                'document' => $fileName,
+                'created_at'=> now(),
+                'updated_at'=> now(),
+            ]);
+        }
+    }
+}
 
     return redirect()->back()->with('success', 'Task updated successfully!');
 }

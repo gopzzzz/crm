@@ -2,6 +2,73 @@
 
 @section('content')
 
+<style>
+    .meeting-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.meeting-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+}
+
+/* Top Gradient */
+.card-top {
+    height: 5px;
+    background: linear-gradient(90deg, #696cff, #00cfe8);
+}
+
+/* Status badge */
+.status-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 11px;
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+
+.badge-soft-primary {
+    background: rgba(105,108,255,0.15);
+    color: #696cff;
+}
+
+.badge-soft-success {
+    background: rgba(40,199,111,0.15);
+    color: #28c76f;
+}
+
+.badge-soft-secondary {
+    background: rgba(108,117,125,0.15);
+    color: #6c757d;
+}
+
+/* Info row */
+.meeting-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 13px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Icon button */
+.btn-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+}
+    </style>
+
 <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="d-flex justify-content-between align-items-center py-3 mb-4">
@@ -39,67 +106,89 @@
                         
                     </div>
 
-                    <div class="table-responsive text-nowrap">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Title</th>
-                                    <th>Description</th>
-                                    <th>Link</th>
-                                    <th>Date</th>
-                                    <th>Time</th>
-                                    <th>Assign Staff</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody class="table-border-bottom-0">
-                                @php $i = 1; @endphp
+                 <div class="row g-4">
 
-                                @foreach($meetings as $key)
-                                    <tr>
-                                        <td>{{ $i }}</td>
-                                        <td>{{ $key->title }}</td>
-                                        <td>{{ $key->description }}</td>
-                                        <td>{{ $key->link }}</td>
-                                        <td>{{ $key-> meeting_date}}</td>
-                                        <td>{{ $key-> meeting_time}}</td>
-                                        <td>{{ $key->staff_name }}</td>
-                                        <td>
-                                             @php
-                                             $statusMap = [
-                                             0 => ['text' => 'Scheduled', 'class' => 'bg-primary'],
-                                             1 => ['text' => 'Completed', 'class' => 'bg-success']
-                                            
-                                             ];
-                                             @endphp
-                                             
-                                        @if(isset($statusMap[$key->status]))
-                                        <span class="badge {{ $statusMap[$key->status]['class'] }}">
-                                            {{ $statusMap[$key->status]['text'] }}
-                                        </span>
-                                        
-                                        @else
-                                        <span class="badge bg-secondary">Unknown</span>
-                                        @endif
-                                    </td>
-                                        <td>
-                                         <i class="fa fa-pencil-alt text-primary"
-                                         style="cursor:pointer;"
-                                         data-bs-toggle="modal"
-                                         data-bs-target="#editmeetingmodal"
-                                         onclick="setMeeting('{{ $key->id }}','{{ e($key->title) }}','{{ e($key->description) }}','{{ e($key->link) }}','{{ $key->meeting_date }}','{{ $key->meeting_time }}','{{ e($key->assigned_staff) }}','{{ $key->status }}')">
-                                        </i>
-                                        
+@foreach($meetings as $key)
+<div class="col-md-6 col-lg-4">
 
-                                            
-                                        </td>
-                                    </tr>
-                                    @php $i++; @endphp
-                                @endforeach
-                            </tbody>
-                        </table>
+    <div class="meeting-card position-relative">
+
+        {{-- Status Badge --}}
+        @php
+            $statusMap = [
+                0 => ['text' => 'Scheduled', 'class' => 'badge-soft-primary'],
+                1 => ['text' => 'Completed', 'class' => 'badge-soft-success']
+            ];
+        @endphp
+
+        <span class="status-badge {{ $statusMap[$key->status]['class'] ?? 'badge-soft-secondary' }}">
+            {{ $statusMap[$key->status]['text'] ?? 'Unknown' }}
+        </span>
+
+        {{-- Top Gradient Strip --}}
+        <div class="card-top"></div>
+
+        <div class="p-3">
+
+            {{-- Title --}}
+            <h5 class="fw-bold mb-2 text-truncate">
+                {{ $key->title }}
+            </h5>
+
+            {{-- Description --}}
+            <p class="text-muted small mb-3" style="min-height:40px;">
+                {{ $key->description ?? 'No description provided' }}
+            </p>
+
+            {{-- Info Section --}}
+            <div class="meeting-info">
+
+                <div class="info-item">
+                    <i class="fa fa-calendar text-primary"></i>
+                    <span>{{ $key->meeting_date }}</span>
+                </div>
+
+                <div class="info-item">
+                    <i class="fa fa-clock text-warning"></i>
+                    <span>{{ $key->meeting_time }}</span>
+                </div>
+
+                <div class="info-item">
+                    <i class="fa fa-user text-success"></i>
+                    <span>{{ $key->staff_name }}</span>
+                </div>
+
+            </div>
+
+            {{-- Actions --}}
+            <div class="d-flex justify-content-between align-items-center mt-3">
+
+                @if($key->link)
+                <a href="{{ $key->link }}" target="_blank" class="btn btn-sm btn-primary px-3">
+                    Join
+                </a>
+                @else
+                <span class="text-muted small">No link</span>
+                @endif
+
+                {{-- Edit --}}
+                <button class="btn btn-icon btn-light"
+                    data-bs-toggle="modal"
+                    data-bs-target="#editmeetingmodal"
+                    onclick="setMeeting('{{ $key->id }}','{{ e($key->title) }}','{{ e($key->description) }}','{{ e($key->link) }}','{{ $key->meeting_date }}','{{ $key->meeting_time }}','{{ e($key->assigned_staff) }}','{{ $key->status }}')">
+
+                    <i class="fa fa-pencil-alt"></i>
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+@endforeach
+
+</div>
                     </div>
                 </div>
             </div>

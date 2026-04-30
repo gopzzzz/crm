@@ -1,0 +1,818 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1:4309
+-- Generation Time: Apr 22, 2026 at 04:50 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `crm`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `countrys`
+--
+
+CREATE TABLE `countrys` (
+  `id` int(11) NOT NULL,
+  `country_name` varchar(255) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `countrys`
+--
+
+INSERT INTO `countrys` (`id`, `country_name`, `created_at`, `updated_at`) VALUES
+(1, 'India', '2025-03-11 20:38:38', '2025-03-11 20:38:38');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customers`
+--
+
+CREATE TABLE `customers` (
+  `id` int(11) NOT NULL,
+  `name` varchar(20) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `business_type` varchar(20) DEFAULT NULL,
+  `note` varchar(200) DEFAULT NULL,
+  `phone_number` varchar(255) NOT NULL,
+  `address` text NOT NULL,
+  `position` text NOT NULL,
+  `secondary_number` varchar(255) NOT NULL,
+  `status` int(11) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `customers`
+--
+
+INSERT INTO `customers` (`id`, `name`, `email`, `business_type`, `note`, `phone_number`, `address`, `position`, `secondary_number`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'test', 'test@gmail.com', 'test', 'test', '9074215228', 'fgvf', 'fgf', '124512875', 1, '2026-04-08 06:53:20', '2026-04-21 09:11:29');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customer_supports`
+--
+
+CREATE TABLE `customer_supports` (
+  `id` int(11) NOT NULL,
+  `customer_name` varchar(20) NOT NULL,
+  `issue` varchar(50) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT 0,
+  `ticket` varchar(255) NOT NULL,
+  `assigned_employee` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `customer_supports`
+--
+
+INSERT INTO `customer_supports` (`id`, `customer_name`, `issue`, `created_at`, `updated_at`, `status`, `ticket`, `assigned_employee`) VALUES
+(1, 'test', 'test', '2026-04-08 14:43:39', '2026-04-13 07:14:05', 1, '', 'sanjay'),
+(2, 'test', 'testin', '2026-04-08 15:14:21', '2026-04-13 07:13:57', 2, '', 'sanjay'),
+(3, 'test', 'random', '2026-04-13 07:04:40', '2026-04-13 07:17:53', 3, '', 'sanjay'),
+(4, 'test', 'test', '2026-04-13 07:14:21', '2026-04-13 07:14:21', 0, '', 'sanjay'),
+(5, '1', 'Mobile responsive', '2026-04-21 09:12:13', '2026-04-21 09:12:13', 0, '121212', '1'),
+(6, '1', 'water filter complain', '2026-04-22 14:22:05', '2026-04-22 14:22:29', 2, '124512', '1');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `documents`
+--
+
+CREATE TABLE `documents` (
+  `id` int(11) NOT NULL,
+  `document_name` varchar(255) NOT NULL,
+  `file` varchar(255) NOT NULL,
+  `folder_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `documents`
+--
+
+INSERT INTO `documents` (`id`, `document_name`, `file`, `folder_id`, `created_at`, `updated_at`) VALUES
+(1, 'Work_order_agrement', '69e7403145390.jpg', 1, '2026-04-21 09:15:29', '2026-04-21 09:15:29');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `extras`
+--
+
+CREATE TABLE `extras` (
+  `id` int(11) NOT NULL,
+  `extras` varchar(255) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `extras`
+--
+
+INSERT INTO `extras` (`id`, `extras`, `created_at`, `updated_at`) VALUES
+(1, 'Water', '2025-04-09 09:21:08', '2025-04-11 08:18:19'),
+(2, 'waterr', '2025-04-10 05:52:12', '2025-04-11 07:05:52'),
+(3, 'new1', '2025-04-11 08:18:37', '2025-04-11 08:18:37');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `failed_jobs`
+--
+
+CREATE TABLE `failed_jobs` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `uuid` varchar(255) NOT NULL,
+  `connection` text NOT NULL,
+  `queue` text NOT NULL,
+  `payload` longtext NOT NULL,
+  `exception` longtext NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `folders`
+--
+
+CREATE TABLE `folders` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `folders`
+--
+
+INSERT INTO `folders` (`id`, `name`, `created_at`, `updated_at`) VALUES
+(1, 'Routeq live', '2026-04-21 09:13:44', '2026-04-21 09:13:44'),
+(2, 'Jerry', '2026-04-22 14:23:28', '2026-04-22 14:23:28');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `leads`
+--
+
+CREATE TABLE `leads` (
+  `id` int(11) NOT NULL,
+  `lead_type` int(11) NOT NULL,
+  `full_name` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `phone_number` varchar(255) NOT NULL,
+  `checkin` varchar(255) DEFAULT NULL,
+  `checkout` varchar(255) DEFAULT NULL,
+  `numberofguest` varchar(255) DEFAULT NULL,
+  `child` varchar(255) DEFAULT NULL,
+  `infant` varchar(255) DEFAULT NULL,
+  `room_type` varchar(11) DEFAULT NULL,
+  `purpose` varchar(255) DEFAULT NULL,
+  `note` text DEFAULT NULL,
+  `assign_id` varchar(255) DEFAULT NULL,
+  `status` varchar(11) DEFAULT NULL COMMENT '0-pending,1-hot , 2-warm ,3- cold',
+  `sale_status` varchar(11) DEFAULT NULL COMMENT '1-converted,2-processing , 3- dead',
+  `task_status` varchar(11) DEFAULT NULL COMMENT '1-pending,2-completed',
+  `reminder_date` varchar(255) DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `leads`
+--
+
+INSERT INTO `leads` (`id`, `lead_type`, `full_name`, `email`, `phone_number`, `checkin`, `checkout`, `numberofguest`, `child`, `infant`, `room_type`, `purpose`, `note`, `assign_id`, `status`, `sale_status`, `task_status`, `reminder_date`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Sree ranj', NULL, '9074286186', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '2', '2', '1', NULL, '2026-02-04 10:26:39', '2026-02-21 14:24:27'),
+(2, 1, 'Manu UK', NULL, '447961575055', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '3', '3', '2', NULL, '2026-02-04 10:26:39', '2026-03-10 06:22:53'),
+(3, 1, 'Binu Nair', NULL, '9246308397', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '1', '2', '1', NULL, '2026-02-04 10:26:39', '2026-02-19 13:28:57'),
+(4, 1, 'Babu Elias', NULL, '9895500079', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '2', '2', '1', NULL, '2026-02-04 10:26:39', '2026-02-21 14:25:04'),
+(5, 1, 'Raheek', NULL, '9895500079', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '2', '2', '1', NULL, '2026-02-04 10:26:39', '2026-02-21 14:27:07'),
+(6, 1, 'vargheese moolan', NULL, '9249500001', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '1', '1', '2', NULL, '2026-02-04 10:26:39', '2026-02-21 14:25:43'),
+(7, 1, 'Gobi', NULL, '9677116760', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '1', '2', '1', NULL, '2026-02-04 10:26:39', '2026-02-19 13:23:31'),
+(8, 1, 'suresh babu', NULL, '9003023620', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '1', '1', '2', NULL, '2026-02-04 10:26:39', '2026-02-21 14:28:00'),
+(9, 1, 'cyda', NULL, '0000000000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '3', '3', '2', NULL, '2026-02-04 10:26:39', '2026-02-21 14:28:43'),
+(10, 1, 'Afsal', NULL, '9633009045', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '2', '2', '1', NULL, '2026-02-04 10:26:39', '2026-02-21 14:46:15'),
+(11, 1, 'Alankar', NULL, '8547182862', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '2', '2', '1', NULL, '2026-02-04 10:26:39', '2026-02-19 13:20:52'),
+(12, 1, 'Vijay Krishnan', NULL, '9495884727', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '2', '2', '1', NULL, '2026-02-04 10:26:39', '2026-02-21 14:47:27'),
+(13, 1, 'K J Ajith and Associates', NULL, '8089127794', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '2', '2', '1', NULL, '2026-02-04 10:26:39', '2026-02-21 14:47:52'),
+(14, 1, 'ROY MUNNAR', NULL, '9744177888', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '2', '2', '1', NULL, '2026-02-04 10:26:39', '2026-02-19 13:18:40'),
+(15, 1, 'PANDYAN', NULL, '9840175976', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '1', '2', '1', NULL, '2026-02-04 10:26:39', '2026-02-19 13:15:57'),
+(16, 1, 'ALI ECOMERCE', NULL, '9496536970', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '1', '2', '1', NULL, '2026-02-04 10:26:39', '2026-02-19 13:14:59'),
+(17, 1, 'Pinky swain', NULL, '8895082055', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '2', '2', '1', NULL, '2026-02-04 10:26:39', '2026-02-19 13:14:19'),
+(18, 1, 'JOSEKUTTY KURIAN', NULL, '9619498282', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '2', '2', '1', NULL, '2026-02-04 10:26:39', '2026-02-19 13:13:55'),
+(19, 1, 'SAJI SIR SN TOURIST HOME', NULL, '9447396363', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '2', '2', '1', NULL, '2026-02-04 10:26:39', '2026-02-19 13:13:01'),
+(20, 1, 'ALPHONSE VADAKKAN', NULL, '9388834991', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '2', '2', '1', NULL, '2026-02-04 10:26:39', '2026-02-19 13:12:30'),
+(21, 1, 'ASIF ALI', NULL, '9847037650', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '1', '2', '1', NULL, '2026-02-04 10:26:39', '2026-02-19 13:11:48'),
+(22, 1, 'Manoj Josep', NULL, '8089062267', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '3', '3', '1', NULL, '2026-02-04 10:26:39', '2026-02-19 13:11:28'),
+(23, 1, 'Varun Ramesh', NULL, '9447162636', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '2', '2', '1', NULL, '2026-02-04 10:26:39', '2026-02-19 13:09:59'),
+(24, 1, 'Md.Fazil', NULL, '9970924448', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '2', '2', '1', NULL, '2026-02-04 10:26:39', '2026-02-19 13:09:32'),
+(25, 1, 'Shijo', NULL, '9526842900', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '1', '2', '1', NULL, '2026-02-04 10:26:39', '2026-02-21 14:55:42'),
+(26, 1, 'OM NARENDRA', NULL, '8585988898', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '2', '2', '1', NULL, '2026-02-04 10:26:39', '2026-02-19 13:08:01'),
+(27, 1, 'Kenrick Augusta', NULL, '15082025808', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '2', '2', '1', NULL, '2026-02-04 10:26:39', '2026-02-19 13:07:16'),
+(28, 1, 'Bradley USA', NULL, '14012187751', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '3', '3', '2', NULL, '2026-02-04 10:26:39', '2026-02-19 13:06:35'),
+(29, 1, 'Joseph Amalraj', NULL, '9442510344', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '2', '2', '1', NULL, '2026-02-04 10:26:39', '2026-02-19 13:05:40'),
+(30, 1, 'Gireesh Kumar', NULL, '9895596475', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '2', '2', '1', NULL, '2026-02-04 10:26:39', '2026-02-19 13:05:05'),
+(31, 1, 'Govindan KP', NULL, '9847123564', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '2', '2', '1', NULL, '2026-02-04 10:26:39', '2026-02-19 13:04:33'),
+(32, 1, 'Bharath', NULL, '9142200101', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '2', '2', '1', NULL, '2026-02-04 10:26:39', '2026-02-19 13:03:54'),
+(33, 1, 'Satvik Goa', NULL, '9545585513', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '2', '2', '1', NULL, '2026-02-04 10:26:39', '2026-02-19 13:03:15'),
+(34, 1, 'Dhananjayan PV', NULL, '9037321848', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '2', '2', '1', NULL, '2026-02-04 10:26:39', '2026-02-21 14:48:33'),
+(35, 1, 'ROYCE KOTTAYAM', NULL, '9400959960', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '1', '2', '1', NULL, '2026-02-04 10:26:39', '2026-02-19 12:58:14'),
+(36, 1, 'Rajeshwary Peethambaran', NULL, '7025650535', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '1', '2', '1', NULL, '2026-02-04 10:26:39', '2026-02-19 12:57:50'),
+(37, 1, 'ziyad', NULL, '23052563083', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '2', '2', '1', NULL, '2026-02-04 10:26:39', '2026-02-04 10:31:02'),
+(38, 1, 'SHOJI AUSTRIALIA', NULL, '61401091433', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '3', '3', '2', NULL, '2026-02-04 10:26:39', '2026-02-21 14:14:20'),
+(39, 1, 'Razi Rozario', NULL, '9349227322', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2', '2', '1', NULL, '2026-02-19 12:54:59', '2026-02-21 14:13:47'),
+(40, 4, 'Sam Thomas', NULL, '6238010558', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-03-07 05:39:19', '2026-03-07 05:39:19'),
+(41, 1, 'Dhwani Kakkanad', NULL, '9847722030', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2', '2', NULL, NULL, '2026-03-10 06:48:12', '2026-03-10 06:48:12'),
+(42, 2, 'lemoninteriordesigners', NULL, '9895677008', NULL, NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-03-10 09:45:23', '2026-03-18 07:20:24'),
+(43, 2, 'RAK Interiors', NULL, '9544512345', NULL, NULL, NULL, NULL, NULL, '3', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-03-10 10:25:20', '2026-03-10 10:25:20'),
+(44, 1, 'Vellayil Constructions Kalamassery', NULL, '09995772880', NULL, NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL, '2', '2', NULL, NULL, '2026-03-12 07:39:58', '2026-03-18 07:19:27'),
+(45, 1, 'KAROTHUKUZHI CONSTRUCTION COMPANY', NULL, '8089377780', NULL, NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL, '1', '2', NULL, NULL, '2026-03-12 07:40:38', '2026-03-18 07:17:29'),
+(46, 1, 'Elegant Engineering & Constructions', NULL, '08921078125', NULL, NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-03-12 07:41:05', '2026-03-12 07:41:05'),
+(47, 1, 'MS Construction & Developers', NULL, '09995668117', NULL, NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL, '1', '2', NULL, NULL, '2026-03-12 07:41:41', '2026-03-18 07:00:07'),
+(48, 1, 'Buldtrix Infra Private Limited', NULL, '07306208972', NULL, NULL, NULL, NULL, NULL, '3', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-03-12 07:42:16', '2026-03-12 07:42:16'),
+(49, 1, 'Jophy Developers LLP', NULL, '09567652510', NULL, NULL, NULL, NULL, NULL, '3', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-03-12 07:42:59', '2026-03-12 07:42:59'),
+(50, 1, 'Leena Construction Company', NULL, '09746211630', NULL, NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL, '2', '2', NULL, NULL, '2026-03-12 07:43:28', '2026-03-18 06:54:41'),
+(51, 1, 'J.J Constructions', NULL, '09349923655', NULL, NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-03-12 07:44:04', '2026-03-12 07:44:04'),
+(52, 1, 'Maintenance Kochi', NULL, '07736577775', NULL, NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-03-12 07:44:34', '2026-03-12 07:44:34'),
+(53, 1, 'Luminarch Builders', NULL, '07736866613', NULL, NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-03-12 07:48:14', '2026-03-12 07:48:14'),
+(54, 1, 'KochiPlaza Constructions Ernakulam', NULL, '09895169005', NULL, NULL, NULL, NULL, NULL, '3', NULL, NULL, NULL, '2', '2', NULL, NULL, '2026-03-12 07:48:50', '2026-03-18 06:49:22'),
+(55, 1, 'STRIDE BUILDING ENGINEERS PVT LTD', NULL, '04842555091', NULL, NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-03-12 07:51:33', '2026-03-12 07:51:33'),
+(56, 1, 'Purayidom Realtors Private Limited', NULL, '9074215220', NULL, NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL, '1', '2', NULL, NULL, '2026-03-12 07:55:23', '2026-03-18 06:45:51'),
+(57, 1, 'CORBILTEK PVT LTD', NULL, '9496152037', NULL, NULL, NULL, NULL, NULL, '3', NULL, NULL, NULL, '2', '2', NULL, NULL, '2026-03-12 07:59:45', '2026-03-18 06:42:45'),
+(58, 1, 'BILARA GROUP - Kakkanad', NULL, '07012388767', NULL, NULL, NULL, NULL, NULL, '3', NULL, NULL, NULL, '2', '2', NULL, NULL, '2026-03-12 08:00:59', '2026-03-18 06:40:05'),
+(59, 1, 'The Engineer Builders', NULL, '7907218383', NULL, NULL, NULL, NULL, NULL, '3', NULL, NULL, NULL, '2', '2', NULL, NULL, '2026-03-12 08:01:41', '2026-03-18 06:39:36'),
+(60, 1, 'BuildNext Experience Center', NULL, '9061011116', NULL, NULL, NULL, NULL, NULL, '3', NULL, NULL, NULL, '2', '2', NULL, NULL, '2026-03-12 08:02:24', '2026-03-18 06:39:10'),
+(61, 1, 'Case Construction Equipment - Future Construction Equipments And Spares', NULL, '07902907778', NULL, NULL, NULL, NULL, NULL, '3', NULL, NULL, NULL, '2', '2', NULL, NULL, '2026-03-12 08:03:45', '2026-03-18 06:36:08'),
+(62, 1, 'BASE Engineering Kalamassery', NULL, '08089152832', NULL, NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-03-12 08:04:33', '2026-03-12 08:04:33'),
+(63, 1, 'Fabtech Building Systems Pvt Ltd', NULL, '09447782517', NULL, NULL, NULL, NULL, NULL, '1', NULL, NULL, NULL, '2', '2', NULL, NULL, '2026-03-12 08:05:12', '2026-03-18 06:31:01'),
+(64, 6, 'Sanjeev C/o Gijo', NULL, '9447536488', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '2', NULL, NULL, '2026-03-18 06:21:26', '2026-03-18 06:24:49'),
+(65, 6, 'Jayalakshmi C/o Saji Munnar', NULL, '9447825580', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '1', NULL, NULL, '2026-03-18 06:23:59', '2026-04-22 14:39:58');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lead_types`
+--
+
+CREATE TABLE `lead_types` (
+  `id` int(11) NOT NULL,
+  `lead_type` varchar(255) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `lead_types`
+--
+
+INSERT INTO `lead_types` (`id`, `lead_type`, `created_at`, `updated_at`) VALUES
+(1, 'Walk In', '2025-04-09 06:53:49', '2025-04-10 10:05:31'),
+(2, 'Social Media', '2025-04-09 06:54:40', '2025-04-09 06:54:40'),
+(3, 'Facebook Meta Ads', '2025-04-09 06:55:19', '2025-04-09 06:55:19'),
+(4, 'whatsapp', '2025-04-10 05:53:22', '2025-04-10 05:53:22'),
+(5, 'Enquiry', '2025-05-17 06:51:53', '2025-05-17 06:51:53'),
+(6, 'Corporates', '2025-05-17 07:23:28', '2025-05-17 07:23:28'),
+(8, 'tested', '2026-04-08 04:19:04', '2026-04-08 04:19:13');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `meetings`
+--
+
+CREATE TABLE `meetings` (
+  `id` int(11) NOT NULL,
+  `title` text NOT NULL,
+  `description` text NOT NULL,
+  `link` varchar(255) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `meeting_date` date DEFAULT NULL,
+  `meeting_time` time DEFAULT NULL,
+  `status` int(11) NOT NULL,
+  `assigned_staff` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `meetings`
+--
+
+INSERT INTO `meetings` (`id`, `title`, `description`, `link`, `created_at`, `updated_at`, `meeting_date`, `meeting_time`, `status`, `assigned_staff`) VALUES
+(1, 'test2', 'test1', 'still', '2026-04-08 09:21:18', '2026-04-13 06:36:07', '2026-04-13', '02:06:00', 0, 'sanjay'),
+(2, 'test', 'test', 'test', '2026-04-13 06:37:31', '2026-04-13 06:37:49', '2026-04-14', '12:10:00', 0, 'sanjay'),
+(3, 'test', 'test', 'test', '2026-04-13 06:38:17', '2026-04-13 06:39:00', '2026-04-17', '18:08:00', 0, 'sanjay'),
+(4, 'Crm update', 'Meeting with sanjay', 'https://routeqinnovations.com/', '2026-04-21 08:47:49', '2026-04-21 08:47:49', '2026-04-21', '16:00:00', 0, '1'),
+(5, 'crm', 'crm discuss', 'https://routeqinnovations.com/', '2026-04-22 14:21:14', '2026-04-22 14:21:14', '2026-04-22', '21:00:00', 0, '1');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `menus`
+--
+
+CREATE TABLE `menus` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `assigned_name` varchar(255) DEFAULT NULL,
+  `priority` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `status` int(11) NOT NULL,
+  `due_date` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `menus`
+--
+
+INSERT INTO `menus` (`id`, `title`, `description`, `assigned_name`, `priority`, `created_at`, `updated_at`, `image`, `status`, `due_date`) VALUES
+(1, 'test', 'test1', 'sanjay', 0, '2026-04-07 15:32:19', '2026-04-13 06:09:23', '69dc86c2c98f4.jpg', 0, NULL),
+(2, 'testing', 'testing', 'sanjay', 0, '2026-04-13 07:16:46', '2026-04-13 07:16:57', '69dc9869215b5.jpg', 0, NULL),
+(3, 'Go to angamaly', 'Go to angamaluy and put money to account', '1', 1, '2026-04-22 14:29:34', '2026-04-22 14:30:30', '69e8db4e19135.jpg', 1, '2026-04-22');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `migrations`
+--
+
+CREATE TABLE `migrations` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `migration` varchar(255) NOT NULL,
+  `batch` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `migrations`
+--
+
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
+(1, '2014_10_12_000000_create_users_table', 1),
+(2, '2014_10_12_100000_create_password_resets_table', 1),
+(3, '2019_08_19_000000_create_failed_jobs_table', 1),
+(4, '2019_12_14_000001_create_personal_access_tokens_table', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `password_resets`
+--
+
+CREATE TABLE `password_resets` (
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `personal_access_tokens`
+--
+
+CREATE TABLE `personal_access_tokens` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `tokenable_type` varchar(255) NOT NULL,
+  `tokenable_id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `token` varchar(64) NOT NULL,
+  `abilities` text DEFAULT NULL,
+  `last_used_at` timestamp NULL DEFAULT NULL,
+  `expires_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `room_types`
+--
+
+CREATE TABLE `room_types` (
+  `id` int(11) NOT NULL,
+  `room_type` varchar(255) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `room_types`
+--
+
+INSERT INTO `room_types` (`id`, `room_type`, `created_at`, `updated_at`) VALUES
+(1, 'No Website', '2025-04-09 09:12:30', '2026-03-10 10:23:44'),
+(2, 'Website Looks Modern', '2025-04-11 07:24:21', '2026-03-10 10:23:55'),
+(3, 'Website Looks Old', '2026-03-10 10:24:06', '2026-03-10 10:24:06');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `states`
+--
+
+CREATE TABLE `states` (
+  `id` int(11) NOT NULL,
+  `country_id` int(11) NOT NULL,
+  `state_name` varchar(255) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `states`
+--
+
+INSERT INTO `states` (`id`, `country_id`, `state_name`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Kerala', '2025-03-11 20:38:52', '2025-03-11 20:38:52');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tasks`
+--
+
+CREATE TABLE `tasks` (
+  `id` int(11) NOT NULL,
+  `lead_id` int(11) NOT NULL,
+  `task_created_date` date NOT NULL,
+  `assign_id` int(11) NOT NULL,
+  `start_date` date NOT NULL,
+  `due_date` date NOT NULL,
+  `priority` int(11) NOT NULL COMMENT '1-Low,2-Normal,3-High,4-Urgent',
+  `status` int(11) NOT NULL COMMENT '1-Not Started,2-Started,3-Completed,4-Canceled,5-Deferred',
+  `notes` varchar(250) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_employees`
+--
+
+CREATE TABLE `tbl_employees` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `designation` varchar(255) NOT NULL,
+  `phone_number` varchar(255) NOT NULL,
+  `userid` int(11) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `dob` varchar(255) NOT NULL,
+  `status` int(11) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_employees`
+--
+
+INSERT INTO `tbl_employees` (`id`, `name`, `designation`, `phone_number`, `userid`, `address`, `dob`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'sanjay', 'test', '08078412228', 24, 'valappilkudy house south vellarapilly', '2026-04-08', 0, '2026-04-13 05:12:10', '2026-04-13 05:12:10');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_reminders`
+--
+
+CREATE TABLE `tbl_reminders` (
+  `id` int(11) NOT NULL,
+  `lead_id` int(11) NOT NULL,
+  `reminder_date` date NOT NULL,
+  `reminder_notes` text NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_reminders`
+--
+
+INSERT INTO `tbl_reminders` (`id`, `lead_id`, `reminder_date`, `reminder_notes`, `created_at`, `updated_at`) VALUES
+(1, 3, '2026-02-23', 'Connect again', '2026-02-21 14:53:38', '2026-02-21 14:53:38'),
+(2, 7, '2026-02-23', 'JUst call', '2026-02-21 14:54:24', '2026-02-21 14:54:24'),
+(3, 15, '2026-02-23', 'Call', '2026-02-21 14:54:53', '2026-02-21 14:54:53'),
+(4, 21, '2026-02-23', 'call', '2026-02-21 14:55:19', '2026-02-21 14:55:19'),
+(5, 25, '2026-02-23', 'call', '2026-02-21 14:55:55', '2026-02-21 14:55:55'),
+(6, 35, '2026-02-23', 'call', '2026-02-21 14:56:15', '2026-02-21 14:56:15'),
+(7, 36, '2026-02-23', 'call', '2026-02-21 14:56:30', '2026-02-21 14:56:30'),
+(8, 65, '2026-04-27', 'call back', '2026-04-22 14:19:28', '2026-04-22 14:19:28'),
+(9, 64, '2026-04-30', 'call', '2026-04-22 14:40:17', '2026-04-22 14:40:17');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `remember_token` varchar(100) DEFAULT NULL,
+  `role` int(11) DEFAULT NULL COMMENT '1-Admin, 2-Employee',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `role`, `created_at`, `updated_at`) VALUES
+(1, 'Admin', 'admin@admin.com', NULL, '$2y$10$6Kp5hNVl7gLPj4CLoPNBc.1m/ynG/tCxyQZCG2W0vNwI.Aux6AOyO', NULL, 1, '2025-05-17 04:42:49', '2025-05-17 04:42:49'),
+(19, 'Akshay Baskar', 'akshaykbm44@gmail.com', NULL, '$2y$10$Pf3Rji.Y9WsslJVejQ6zsu2Ugr10J6CdLP4TJqm5PcAmH4Ftcl4rS', NULL, 2, '2025-05-24 08:50:17', '2025-08-14 10:12:14'),
+(20, 'Jerry Devarajan', 'jerrydevarajan777@gmail.com', NULL, '$2y$10$WkU8HNCp9fKYCnNqh9vbN.Y7bBF1MksNtLPwUka30tdoIotGPQX9i', NULL, 2, '2025-05-24 08:53:27', '2025-05-24 08:53:27'),
+(21, 'Gopika Velayudhan', 'gopikagopz380@gmail.com', NULL, '$2y$10$XN1hn8tKUz.hQwY1/CDw4uAYuSKVvDAMjL3MrAHoT8Ie6RxAIUL6y', NULL, 2, '2025-05-24 09:06:47', '2025-05-24 09:06:47'),
+(22, 'Bhadra', 'bhadrarajan2000@gmail.com', NULL, '$2y$10$nEopESoGWA.8oksSz9SSr.jlXs6XZgpAokO6gTFtWVs8COxLYQ57m', NULL, 2, '2025-05-24 09:08:27', '2025-05-24 09:08:27'),
+(23, 'Kavya Shaji', 'kavyashaji31@gmail.com', NULL, '$2y$10$yXr1v112l2gR5aYgz/CmhOOAQGidFBmCAgRUwcbsk.5b3ssFA34rC', NULL, 2, '2025-07-02 09:31:55', '2025-08-14 10:10:51'),
+(24, 'sanjay', 'test@gmail.com', NULL, '$2y$10$FtXSVxOdnnz4hyZVfrIyw.jUpvRTgNWrp5drrODWXPF5LehfKod/C', NULL, 2, '2026-04-12 23:42:10', '2026-04-12 23:42:10');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `countrys`
+--
+ALTER TABLE `countrys`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `customers`
+--
+ALTER TABLE `customers`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `customer_supports`
+--
+ALTER TABLE `customer_supports`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `documents`
+--
+ALTER TABLE `documents`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `extras`
+--
+ALTER TABLE `extras`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `failed_jobs`
+--
+ALTER TABLE `failed_jobs`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
+
+--
+-- Indexes for table `folders`
+--
+ALTER TABLE `folders`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `leads`
+--
+ALTER TABLE `leads`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `lead_types`
+--
+ALTER TABLE `lead_types`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `meetings`
+--
+ALTER TABLE `meetings`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `menus`
+--
+ALTER TABLE `menus`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `migrations`
+--
+ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD KEY `password_resets_email_index` (`email`);
+
+--
+-- Indexes for table `personal_access_tokens`
+--
+ALTER TABLE `personal_access_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
+  ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
+
+--
+-- Indexes for table `room_types`
+--
+ALTER TABLE `room_types`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `states`
+--
+ALTER TABLE `states`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tasks`
+--
+ALTER TABLE `tasks`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_employees`
+--
+ALTER TABLE `tbl_employees`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_reminders`
+--
+ALTER TABLE `tbl_reminders`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `users_email_unique` (`email`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `countrys`
+--
+ALTER TABLE `countrys`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `customers`
+--
+ALTER TABLE `customers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `customer_supports`
+--
+ALTER TABLE `customer_supports`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `documents`
+--
+ALTER TABLE `documents`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `extras`
+--
+ALTER TABLE `extras`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `failed_jobs`
+--
+ALTER TABLE `failed_jobs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `folders`
+--
+ALTER TABLE `folders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `leads`
+--
+ALTER TABLE `leads`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+
+--
+-- AUTO_INCREMENT for table `lead_types`
+--
+ALTER TABLE `lead_types`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `meetings`
+--
+ALTER TABLE `meetings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `menus`
+--
+ALTER TABLE `menus`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `migrations`
+--
+ALTER TABLE `migrations`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `personal_access_tokens`
+--
+ALTER TABLE `personal_access_tokens`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `room_types`
+--
+ALTER TABLE `room_types`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `states`
+--
+ALTER TABLE `states`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `tasks`
+--
+ALTER TABLE `tasks`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbl_employees`
+--
+ALTER TABLE `tbl_employees`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `tbl_reminders`
+--
+ALTER TABLE `tbl_reminders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
