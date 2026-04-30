@@ -13,7 +13,7 @@
     <!-- Header -->
     <div class="app-content-header">
         <div class="container-fluid">
-            <div class="row align-items-center mb-3">
+              <div class="row align-items-center mb-3">
                 <div class="col-sm-6">
                     <h3 class="mb-0">Lead List</h3>
                 </div>
@@ -116,7 +116,13 @@
     </div>
 </div>
 
-
+@if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+@endif
+          
 
     <!-- Table Section -->
     <div class="app-content">

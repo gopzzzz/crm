@@ -350,7 +350,7 @@ $latest_customers = DB::table('customers')
             'task_status'   => $request->task_status,
         ]);
 
-        return back()->with('success', 'Lead created successfully!');
+        return redirect('/leadslist')->with('success', 'Lead created successfully!');
     } catch (\Illuminate\Database\QueryException $e) {
         Log::error('SQL Error: ' . $e->getMessage());
         return back()->withErrors(['error' => 'Database error: ' . $e->getMessage()])->withInput();
@@ -444,7 +444,7 @@ $latest_customers = DB::table('customers')
             $customer->save();
         }
     
-        return back()->with('success', 'Lead updated successfully!');
+       return redirect('/leadslist')->with('success', 'Lead updated successfully!');
     }
     
     public function bulkupload()

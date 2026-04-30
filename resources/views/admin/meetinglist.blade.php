@@ -67,6 +67,8 @@
     height: 36px;
     border-radius: 50%;
 }
+
+
     </style>
 
 <div class="content-wrapper">
@@ -101,12 +103,12 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Meeting List</h5>
-                        
-                    </div>
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Meeting List</h5>
+    </div>
 
-                 <div class="row g-4">
+    <div class="card-body">
+        <div class="row g-4">
 
 @foreach($meetings as $key)
 <div class="col-md-6 col-lg-4">
@@ -190,6 +192,7 @@
 
 </div>
                     </div>
+</div>
                 </div>
             </div>
         </div>

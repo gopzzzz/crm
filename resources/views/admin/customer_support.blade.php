@@ -105,7 +105,7 @@ $statusMap = [
 
 {{-- Add Customer Support Modal --}}
 <div class="modal fade" id="addCustomerSupportModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
             <form action="{{ route('storecustomer_support') }}" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -125,8 +125,8 @@ $statusMap = [
 </option>
     @endforeach
 </select>
-
-                    <div class="mb-3">
+                    <div class="row">
+                    <div class="col-12 mb-3">
                         <label class="form-label">Issue</label>
                         <textarea
                             class="form-control"
@@ -136,12 +136,12 @@ $statusMap = [
                         ></textarea>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="col-md-6 mb-3">
                         <label class="form-label">Ticket</label>
                         <input type="text" name="ticket" class="form-control" placeholder="Enter ticket">
                     </div>
 
-                    <div class="mb-3">
+                    <div class="col-md-6 mb-3">
                         <label>Assign Employee</label>
                         <select name="assigned_employee" class="form-control">
                             <option value="">Select Employee</option>
@@ -151,7 +151,7 @@ $statusMap = [
                         </select>
                     </div>
 
-                        <div class="mb-3">
+                        <div class="col-md-6 mb-3">
     <label class="form-label">Status</label>
     <select name="status" id="status" class="form-control">
         <option value="0">Queue</option>
@@ -166,6 +166,7 @@ $statusMap = [
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Create Customer Support</button>
                 </div>
+</div>
             </form>
         </div>
     </div>
@@ -173,7 +174,7 @@ $statusMap = [
 
 {{-- Edit Customer Modal --}}
 <div class="modal fade" id="editcustomersupportmodal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
             <form method="POST" action="{{ route('editcustomer_support') }}" enctype="multipart/form-data" name="customereditform">
                 @csrf
@@ -185,8 +186,8 @@ $statusMap = [
 
                 <div class="modal-body">
                     <input type="hidden" name="id" id="customerid" value="">
-
-                   <div class="mb-3">
+                    <div class="row">
+                   <div class="col-md-6 mb-3">
     <label class="form-label">Customer Name</label>
     <select name="customer_name" id="customer_name_edit" class="form-control">
         <option value="">Select Customer</option>
@@ -198,17 +199,17 @@ $statusMap = [
     </select>
 </div>
 
-                    <div class="mb-3">
+                    <div class="col-md-6 mb-3">
                         <label class="form-label">Issue</label>
                         <textarea class="form-control" id="issue" placeholder="Enter issue" name="issue" rows="3"></textarea>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="col-md-6 mb-3">
                         <label class="form-label">Ticket</label>
                         <input type="text" name="ticket" id="ticket_edit" class="form-control">
                     </div>
 
-                    <div class="mb-3">
+                    <div class="col-md-6 mb-3">
                         <label>Assign Employee</label>
                         <select name="assigned_employee" id="assigned_employee_edit" class="form-control">
                             <option value="">Select Employee</option>
@@ -218,7 +219,7 @@ $statusMap = [
                         </select>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="col-md-6 mb-3">
     <label class="form-label">Status</label>
     <select name="status" id="status" class="form-control">
         <option value="0">Queue</option>
@@ -234,6 +235,7 @@ $statusMap = [
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
+</div>
             </form>
         </div>
     </div>

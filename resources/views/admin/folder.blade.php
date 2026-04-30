@@ -82,7 +82,7 @@
 
 {{-- Add Customer Modal --}}
 <div class="modal fade" id="addFolderModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
             <form action="{{ route('storefolder') }}" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -93,7 +93,8 @@
                 </div>
 
                 <div class="modal-body">
-                    <div class="mb-3">
+                    <div class="row">
+                    <div class="col-12 mb-3">
                         <label class="form-label">Name</label>
                         <input
                             type="text"
@@ -109,13 +110,14 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Create Folder</button>
                 </div>
+</div>
             </form>
         </div>
     </div>
 </div>
 {{-- Edit Menu Modal --}}
 <div class="modal fade" id="editfoldermodal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
             <form method="POST" action="{{ url('folderedit') }}" enctype="multipart/form-data" name="menueditform">
                 @csrf
@@ -127,9 +129,9 @@
 
                 <div class="modal-body">
                     <input type="hidden" name="id" id="folder_id" value="">
-                 
+                 <div class="row">
                     <!--  Name -->
-                    <div class="mb-3">
+                   <div class="col-12 mb-3">
                         <label>Name</label>
                         <input type="text" name="name" id="name" class="form-control">
                     </div>

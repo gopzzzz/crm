@@ -5,6 +5,7 @@
 <div class="content-wrapper">
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
+       
         <h4 class="fw-bold py-3 mb-4">
             <span class="text-muted fw-light">Home /</span> Employees
         </h4>
@@ -13,6 +14,13 @@
         <div class="mb-3 text-end">
             <a href="{{ url('addemployee') }}" class="btn btn-primary">Add Employee</a>
         </div>
+
+         @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+@endif
 
         <!-- Employee Table -->
         <div class="card">

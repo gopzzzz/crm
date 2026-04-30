@@ -84,9 +84,9 @@
     </div>
 </div>
 
-{{-- Add Menu Modal --}}
+{{-- Add Modal --}}
 <div class="modal fade" id="addDocumentModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
 
             <form action="{{ route('storedocument') }}" method="POST" enctype="multipart/form-data">
@@ -97,9 +97,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
 
-                <div class="modal-body"> <!-- ✅ ONLY ONE -->
-
-                    <div class="mb-3">
+                <div class="modal-body">
+                     <!-- ✅ ONLY ONE -->
+                    <div class="row">
+                    <div class="col-md-6 mb-3">
                         <label class="form-label">Folder</label>
                         <select name="folder_id" class="form-control">
                             <option value="">Select Folder</option>
@@ -109,7 +110,7 @@
                         </select>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="col-md-6 mb-3">
                         <label class="form-label">Document Name</label>
                         <input type="text"
                                class="form-control"
@@ -118,7 +119,7 @@
                                required>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="col-md-6 mb-3">
                         <label class="form-label">Upload Document</label>
                         <input type="file" name="file" class="form-control">
                     </div>
@@ -129,15 +130,15 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Create Document</button>
                 </div>
-
+</div>
             </form>
 
         </div>
     </div>
 </div>
-{{-- Edit Menu Modal --}}
+{{-- Edit Modal --}}
 <div class="modal fade" id="editdocumentmodal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
             <form method="POST" action="{{ url('documentedit') }}" enctype="multipart/form-data" name="menueditform">
                 @csrf
@@ -149,15 +150,16 @@
 
                 <div class="modal-body">
                     <input type="hidden" name="id" id="doc_id" value="">
-                 
+                    <div class="row">
+                    
                     <!-- Document Name -->
-                    <div class="mb-3">
+                    <div class="col-md-6 mb-3">
                         <label>Document Name</label>
                         <input type="text" name="document_name" id="doc_name" class="form-control">
                     </div>
 
                     <!-- Folder Dropdown -->
-                    <div class=" mb-3">
+                    <div class="col-md-6 mb-3">
                         <label>Folder</label>
                         <select name="folder_id" id="doc_folder" class="form-control">
                             <option value="">Select Folder</option>
@@ -168,7 +170,7 @@
                     </div>
 
                     <!-- File Upload -->
-                    <div class="mb-3">
+                    <div class="col-md-6 mb-3">
                         <label>Upload New File (optional)</label>
                         <input type="file" name="file" class="form-control">
                     </div>
@@ -178,6 +180,7 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
+</div>
 </div>
             </form>
         </div>

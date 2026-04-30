@@ -94,9 +94,9 @@
     </div>
 </div>
 
-{{-- Add Menu Modal --}}
+{{-- Add Modal --}}
 <div class="modal fade" id="addAttendanceModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
 
             <form action="{{ route('storeattendance') }}" method="POST" enctype="multipart/form-data">
@@ -108,8 +108,8 @@
                 </div>
 
                 <div class="modal-body"> <!-- ✅ ONLY ONE -->
-
-                    <div class="mb-3">
+                    <div class="row">
+                    <div class="col-md-6 mb-3">
                         <label class="form-label">User</label>
                         <select name="user_id" class="form-control">
                             <option value="">Select User</option>
@@ -119,7 +119,7 @@
                         </select>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="col-md-6 mb-3">
                         <label class="form-label">Date</label>
                         <input type="date"
                                class="form-control"
@@ -133,25 +133,25 @@
         
 
         <!-- Punch In -->
-        <div class="mb-3">
+        <div class="col-md-6 mb-3">
             <label class="form-label">Punch In</label>
             <input type="time" name="punch_in" class="form-control">
         </div>
 
         <!-- Punch Out -->
-        <div class="mb-3">
+        <div class="col-md-6 mb-3">
             <label class="form-label">Punch Out</label>
             <input type="time" name="punch_out" class="form-control">
         </div>
 
         <!-- Punch In Note -->
-        <div class="mb-3">
+        <div class="col-md-6 mb-3">
             <label class="form-label">Punch In Note</label>
             <input type="text" name="punch_in_note" class="form-control" placeholder="Optional">
         </div>
 
         <!-- Punch Out Note -->
-        <div class="mb-3">
+        <div class="col-md-6 mb-3">
             <label class="form-label">Punch Out Note</label>
             <input type="text" name="punch_out_note" class="form-control" placeholder="Optional">
         </div>
@@ -162,7 +162,7 @@
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <button type="submit" class="btn btn-primary">Create Attendance</button>
     </div>
-
+</div>
 </form>
 
         </div>
@@ -170,7 +170,7 @@
 </div>
 {{-- Edit Attendance Modal --}}
 <div class="modal fade" id="editattendancemodal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
+   <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
 
             <form method="POST" action="{{ route('attendanceedit') }}" name="attendanceeditform">
@@ -183,8 +183,8 @@
 
                 <div class="modal-body">
                     <input type="hidden" name="id" id="attendance_id">
-
-                    <div class="mb-3">
+                     <div class="row">
+                    <div class="col-md-6 mb-3">
                         <label>User</label>
                         <select name="user_id" id="attendance_user_id" class="form-control">
                             <option value="">Select User</option>
@@ -194,27 +194,27 @@
                         </select>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="col-md-6 mb-3">
                         <label>Date</label>
                         <input type="date" name="date" id="attendance_date" class="form-control">
                     </div>
 
-                    <div class="mb-3">
+                    <div class="col-md-6 mb-3">
                         <label>Punch In</label>
                         <input type="time" name="punch_in" id="attendance_punch_in" class="form-control">
                     </div>
 
-                    <div class="mb-3">
+                   <div class="col-md-6 mb-3">
                         <label>Punch Out</label>
                         <input type="time" name="punch_out" id="attendance_punch_out" class="form-control">
                     </div>
 
-                    <div class="mb-3">
+                    <div class="col-md-6 mb-3">
                         <label>Punch In Note</label>
                         <input type="text" name="punch_in_note" id="attendance_punch_in_note" class="form-control">
                     </div>
 
-                    <div class="mb-3">
+                    <div class="col-md-6 mb-3">
                         <label>Punch Out Note</label>
                         <input type="text" name="punch_out_note" id="attendance_punch_out_note" class="form-control">
                     </div>
@@ -224,7 +224,7 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
-
+</div>
             </form>
 
         </div>

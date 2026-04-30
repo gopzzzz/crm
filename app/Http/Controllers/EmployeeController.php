@@ -65,7 +65,7 @@ class EmployeeController extends Controller
                     'userid'        => $user->id,
                 ]);
     
-                return back()->with('success', 'Employee created successfully!');
+                return redirect('/employeelist')->with('success', 'Employee created successfully!');
             } catch (\Illuminate\Database\QueryException $e) {
                 Log::error('SQL Error: ' . $e->getMessage());
                 return back()->withErrors(['error' => 'Database error: ' . $e->getMessage()])->withInput();
@@ -124,6 +124,6 @@ class EmployeeController extends Controller
         } else {
             return back()->withErrors(['error' => 'User not found']);
         }
-        return back()->with('success', 'Employee  updated successfully!');
+        return redirect('/employeelist')->with('success', 'Employee  updated successfully!');
     }
 }

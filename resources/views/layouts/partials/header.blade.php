@@ -30,7 +30,7 @@
                   <i class="nav-icon bi bi-speedometer"></i>
                   <p>
                     Dashboard
-                    <i class="nav-arrow bi bi-chevron-right"></i>
+                    <!-- <i class="nav-arrow bi bi-chevron-right"></i> -->
                   </p>
                 </a>
                
