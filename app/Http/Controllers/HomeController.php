@@ -763,6 +763,10 @@ public function taskedit($taskId)
         )
         ->first();
 
+    if (!$task) {
+        return redirect()->route('tasklist')->with('error', 'Task not found.');
+    }
+
     $users = DB::table('users')->select('id', 'name')->get();
 
     return view('admin.taskedit', compact('task', 'role', 'users'));

@@ -15,7 +15,7 @@
               <!-- Logo -->
               <div class="app-brand justify-content-center" style="background-color : #0d2921;">
                 <a href="index.html" class="app-brand-link gap-2">
-                  <img src="{{asset('assets/img/header_logo.png')}}" style="width:80%;">
+                  <!-- <img src="{{asset('assets/img/header_logo.png')}}" style="width:80%;"> -->
                  
                 </a>
               </div>
